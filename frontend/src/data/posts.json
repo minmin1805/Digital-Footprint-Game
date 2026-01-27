@@ -1,0 +1,58 @@
+[
+  {
+    "id": "post1",
+    "index": 1,
+    "type": "danger",
+    "category": "location",
+    "imageKey": "image1",
+    "username": "minmin",
+    "caption": "Loving my new place! 🏠 #newhome",
+    "tags": ["#newhome", "#blessed"],
+    "likes": 12,
+    "comments": 3,
+    "dangerZones": [
+      {
+        "id": "post1-zone1",
+        "category": "location",
+        "type": "house_number",
+        "originalWidth": 800,
+        "originalHeight": 600,
+        "x": 253,
+        "y": 76,
+        "width": 308,
+        "height": 81,
+        "explanation": {
+          "title": "House Number \"2847\"",
+          "whatFound": "House number visible on door",
+          "whyDangerous": "House number tells strangers where you live and creeps can use this to find you in real life.",
+          "whatToDoInstead": [
+            "Check photo backgrounds before posting",
+            "Crop out house numbers and street addresses"
+          ],
+          "quickTip": "If your house number shows, retake the photo from a different angle!"
+        }
+      }
+    ],
+    "safeExplanation": null
+  },
+  {
+    "id": "post2",
+    "index": 2,
+    "type": "safe",
+    "category": null,
+    "imageKey": "art",
+    "username": "jess",
+    "caption": "Abstract art sesh 🎨",
+    "tags": ["#art", "#creative"],
+    "likes": 8,
+    "comments": 1,
+    "dangerZones": [],
+    "safeExplanation": {
+      "whyOk": [
+        "No school names or locations",
+        "Just shows your creativity and skills"
+      ],
+      "keepSharing": "Art and creative projects are perfect for social media!"
+    }
+  }
+]
