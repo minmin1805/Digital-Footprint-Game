@@ -1,4 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import WelcomePage from './pages/WelcomePage'
+import InstructionsPage from './pages/InstructionPage'
+import GamePage from './pages/GamePage'
 
 
 
