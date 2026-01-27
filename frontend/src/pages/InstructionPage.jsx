@@ -11,7 +11,7 @@ export default function InstructionPage() {
           <p>Every time you catch a risky detail, you earn points and learn how to post smarter.</p>
         </div>
 
-        <div className='border-1 border-gray-300 rounded-lg p-4'>
+        <div className='border border-gray-300 rounded-lg p-4'>
           <h2 className='text-2xl font-bold'>Your goal</h2>
           <p>Find unsafe post across 5 privacy-risk categories and learn how to fix them before someone else can use them</p>
           <p>You win when you finish the feed and identify the risks correctly</p>
