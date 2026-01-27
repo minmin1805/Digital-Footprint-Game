@@ -16,15 +16,15 @@
         "category": "location",
         "type": "house_number",
         "originalWidth": 800,
-        "originalHeight": 600,
-        "x": 253,
+        "originalHeight": 800,
+        "x": 258,
         "y": 76,
-        "width": 308,
-        "height": 81,
+        "width": 302,
+        "height": 87,
         "explanation": {
           "title": "House Number \"2847\"",
           "whatFound": "House number visible on door",
-          "whyDangerous": "House number tells strangers where you live and creeps can use this to find you in real life.",
+          "whyDangerous": "House number tells strangers where you live and creep can use this to find you in real life.",
           "whatToDoInstead": [
             "Check photo backgrounds before posting",
             "Crop out house numbers and street addresses"
@@ -38,6 +38,259 @@
   {
     "id": "post2",
     "index": 2,
+    "type": "danger",
+    "category": "location",
+    "imageKey": "image2",
+    "username": "t_om",
+    "caption": "Morning walk vibes 🌳",
+    "tags": ["#morning", "#walk"],
+    "likes": 8,
+    "comments": 2,
+    "dangerZones": [
+      {
+        "id": "post2-zone1",
+        "category": "location",
+        "type": "street_sign",
+        "originalWidth": 800,
+        "originalHeight": 800,
+        "x": 476,
+        "y": 67,
+        "width": 256,
+        "height": 96,
+        "explanation": {
+          "title": "Street Sign \"Elm Street\"",
+          "whatFound": "Street sign in background",
+          "whyDangerous": "Street signs narrow down the place that you live so then creep can find and target you.",
+          "whatToDoInstead": [
+            "Check backgrounds for street signs before posting",
+            "Blur or crop out street names",
+            "Use generic location tags (\"Boston\" not \"Elm Street\")"
+          ],
+          "quickTip": "Look at EVERYTHING in your photo background, not just yourself!"
+        }
+      }
+    ],
+    "safeExplanation": null
+  },
+  {
+    "id": "post3",
+    "index": 3,
+    "type": "danger",
+    "category": "school_identity",
+    "imageKey": "image3",
+    "username": "kindInd",
+    "caption": "School spirit!! 🎒",
+    "tags": ["#school", "#spirit"],
+    "likes": 15,
+    "comments": 4,
+    "dangerZones": [
+      {
+        "id": "post3-zone1",
+        "category": "school_identity",
+        "type": "school_logo",
+        "originalWidth": 800,
+        "originalHeight": 800,
+        "x": 0,
+        "y": 0,
+        "width": 100,
+        "height": 100,
+        "explanation": {
+          "title": "School Logo on Hoodie",
+          "whatFound": "School name and logo on clothing",
+          "whyDangerous": "This tells creeps where to find you during your school day.",
+          "whatToDoInstead": [
+            "If you do, crop the photo so logos aren't visible",
+            "Never include your school name in your bio"
+          ],
+          "quickTip": "Save the school spirit gear for actual school days, not Instagram!"
+        }
+      }
+    ],
+    "safeExplanation": null
+  },
+  {
+    "id": "post4",
+    "index": 4,
+    "type": "danger",
+    "category": "school_identity",
+    "imageKey": "image4",
+    "username": "mary_trg",
+    "caption": "So proud of this! 🏆",
+    "tags": ["#award", "#proud"],
+    "likes": 22,
+    "comments": 5,
+    "dangerZones": [
+      {
+        "id": "post4-zone1",
+        "category": "school_identity",
+        "type": "certificate_school",
+        "originalWidth": 800,
+        "originalHeight": 800,
+        "x": 185,
+        "y": 377,
+        "width": 460,
+        "height": 293,
+        "explanation": {
+          "title": "Certificate with School Name",
+          "whatFound": "School name and room number on award",
+          "whyDangerous": "Information on your certificate makes it easy for someone to find you at school and target you.",
+          "whatToDoInstead": [
+            "Crop to show just your name and the achievement",
+            "Use photo editing to blur school information"
+          ],
+          "quickTip": "You can still share your award! Just cover the school name with your hand."
+        }
+      }
+    ],
+    "safeExplanation": null
+  },
+  {
+    "id": "post5",
+    "index": 5,
+    "type": "danger",
+    "category": "personal_identifiers",
+    "imageKey": "image5",
+    "username": "vivet",
+    "caption": "It's my birthday! 13 years old today - March 15, 2012! Thanks for all the birthday wishes! 🎉🎂🎁 #Birthday #March15 #Teenager",
+    "tags": ["#Birthday", "#March15", "#Teenager"],
+    "likes": 45,
+    "comments": 12,
+    "dangerZones": [
+      {
+        "id": "post5-zone1",
+        "category": "personal_identifiers",
+        "type": "full_birthdate",
+        "originalWidth": 800,
+        "originalHeight": 800,
+        "x": 0,
+        "y": 0,
+        "width": 100,
+        "height": 100,
+        "explanation": {
+          "title": "Full Birthdate in Caption",
+          "whatFound": "Full birthday including year in caption",
+          "whyDangerous": "Creeps use birthdates to build fake trust with you. Then they can hack your accounts and pretend to be you and target your friends.",
+          "whatToDoInstead": [
+            "Share just the day: \"It's my birthday\"",
+            "Keep full birthdates private on all social media",
+            "Use privacy settings to hide birthday information"
+          ],
+          "quickTip": "Celebrate without the date, people don't need to know the exact date."
+        }
+      }
+    ],
+    "safeExplanation": null
+  },
+  {
+    "id": "post6",
+    "index": 6,
+    "type": "danger",
+    "category": "daily_routines",
+    "imageKey": "image6",
+    "username": "jakesin_",
+    "caption": "Study corner setup 📚",
+    "tags": ["#study", "#desk"],
+    "likes": 9,
+    "comments": 1,
+    "dangerZones": [
+      {
+        "id": "post6-zone1",
+        "category": "daily_routines",
+        "type": "class_schedule",
+        "originalWidth": 800,
+        "originalHeight": 800,
+        "x": 0,
+        "y": 52,
+        "width": 187,
+        "height": 344,
+        "explanation": {
+          "title": "Class Schedule Paper",
+          "whatFound": "School schedule showing daily times and room number",
+          "whyDangerous": "Expose your daily routine which makes you predictable and easier to target.",
+          "whatToDoInstead": [
+            "Don't post photos that show your daily routine",
+            "Keep papers with personal information out of frame"
+          ],
+          "quickTip": "When showing off your study corner, make sure nothing on the walls reveals your personal information."
+        }
+      }
+    ],
+    "safeExplanation": null
+  },
+  {
+    "id": "post7",
+    "index": 7,
+    "type": "danger",
+    "category": "daily_routines",
+    "imageKey": "image7",
+    "username": "minmin",
+    "caption": "Soccer practice Mondays and Wednesdays 4pm at Riverside Field! ⚽ #soccer #practice",
+    "tags": ["#soccer", "#practice"],
+    "likes": 18,
+    "comments": 3,
+    "dangerZones": [
+      {
+        "id": "post7-zone1",
+        "category": "daily_routines",
+        "type": "activity_schedule",
+        "originalWidth": 800,
+        "originalHeight": 800,
+        "x": 0,
+        "y": 0,
+        "width": 100,
+        "height": 100,
+        "explanation": {
+          "title": "Soccer practice schedule in caption",
+          "whatFound": "Specific location, days, and times for regular activity",
+          "whyDangerous": "Including your regular schedule in description allow creep to approach you when you're focused on practice.",
+          "whatToDoInstead": [
+            "Don't share specific times and locations of regular activities"
+          ],
+          "quickTip": "Share what you do, but not when and where you do it."
+        }
+      }
+    ],
+    "safeExplanation": null
+  },
+  {
+    "id": "post8",
+    "index": 8,
+    "type": "danger",
+    "category": "family_home",
+    "imageKey": "image8",
+    "username": "t_om",
+    "caption": "Family road trip! 🚗",
+    "tags": ["#roadtrip", "#family"],
+    "likes": 11,
+    "comments": 2,
+    "dangerZones": [
+      {
+        "id": "post8-zone1",
+        "category": "family_home",
+        "type": "license_plate",
+        "originalWidth": 800,
+        "originalHeight": 800,
+        "x": 266,
+        "y": 513,
+        "width": 198,
+        "height": 56,
+        "explanation": {
+          "title": "License Plate \"ABC-1234\"",
+          "whatFound": "License plate number on family car",
+          "whyDangerous": "Someone could follow your car, find out where you live, and learn your family's routine.",
+          "whatToDoInstead": [
+            "Always blur or cover license plates in photos",
+            "Check all car photos before posting"
+          ],
+          "quickTip": "Most photo editing apps have a blur tool!"
+        }
+      }
+    ],
+    "safeExplanation": null
+  },
+  {
+    "id": "post9",
+    "index": 9,
     "type": "safe",
     "category": null,
     "imageKey": "art",
@@ -48,11 +301,243 @@
     "comments": 1,
     "dangerZones": [],
     "safeExplanation": {
+      "whatMakesSafe": "This photo shows your talent without revealing any personal information about you.",
       "whyOk": [
         "No school names or locations",
         "Just shows your creativity and skills"
       ],
       "keepSharing": "Art and creative projects are perfect for social media!"
+    }
+  },
+  {
+    "id": "post10",
+    "index": 10,
+    "type": "safe",
+    "category": null,
+    "imageKey": "dog",
+    "username": "kindInd",
+    "caption": "Brownie says hi 🐕",
+    "tags": ["#pet", "#dog"],
+    "likes": 34,
+    "comments": 6,
+    "dangerZones": [],
+    "safeExplanation": {
+      "whatMakesSafe": "Pet name doesn't expose anything about you.",
+      "whyOk": [
+        "Pet name isn't connected to your identity",
+        "Just a cute pet photo"
+      ],
+      "keepSharing": "Pet photos are adorable and safe when backgrounds are generic."
+    }
+  },
+  {
+    "id": "post11",
+    "index": 11,
+    "type": "safe",
+    "category": null,
+    "imageKey": "food",
+    "username": "mary_trg",
+    "caption": "Best pasta ever 🍝",
+    "tags": ["#food", "#pasta"],
+    "likes": 20,
+    "comments": 4,
+    "dangerZones": [],
+    "safeExplanation": {
+      "whatMakesSafe": "Food photos are perfect for social media!",
+      "whyOk": [
+        "Just shows the food",
+        "Document is fine if it is a recipe"
+      ],
+      "keepSharing": "Food photos, especially close-ups, are safe and fun to post."
+    }
+  },
+  {
+    "id": "post12",
+    "index": 12,
+    "type": "safe",
+    "category": null,
+    "imageKey": "selfie",
+    "username": "vivet",
+    "caption": "Good hair day ✨",
+    "tags": ["#selfie", "#ootd"],
+    "likes": 52,
+    "comments": 8,
+    "dangerZones": [],
+    "safeExplanation": {
+      "whatMakesSafe": "This selfie shows just your face and shoulders.",
+      "whyOk": [
+        "Face only",
+        "Blurred or plain background"
+      ],
+      "keepSharing": "Crop close to your face and blur the background."
+    }
+  },
+  {
+    "id": "post13",
+    "index": 13,
+    "type": "safe",
+    "category": null,
+    "imageKey": "nature",
+    "username": "jakesin_",
+    "caption": "Sunset vibes 🌅",
+    "tags": ["#nature", "#sunset"],
+    "likes": 29,
+    "comments": 2,
+    "dangerZones": [],
+    "safeExplanation": {
+      "whatMakesSafe": "Pictures like this are safe to share when there are no identifiable objects in the description.",
+      "whyOk": [
+        "No identifiable landmarks",
+        "Could be anywhere"
+      ],
+      "keepSharing": "Nature photography is a great way to share your interests!"
+    }
+  },
+  {
+    "id": "post14",
+    "index": 14,
+    "type": "safe",
+    "category": null,
+    "imageKey": "pc",
+    "username": "minmin",
+    "caption": "New setup 🔥",
+    "tags": ["#gaming", "#setup"],
+    "likes": 41,
+    "comments": 7,
+    "dangerZones": [],
+    "safeExplanation": {
+      "whatMakesSafe": "Showing your pc setup is just a hobby and interest!",
+      "whyOk": [
+        "Just shows your equipment and setup",
+        "No mail or packages with addresses"
+      ],
+      "keepSharing": "Tech and gaming setups are awesome to share!"
+    }
+  },
+  {
+    "id": "post15",
+    "index": 15,
+    "type": "safe",
+    "category": null,
+    "imageKey": "reading",
+    "username": "jess",
+    "caption": "Cozy reading nook 📖",
+    "tags": ["#reading", "#cozy"],
+    "likes": 16,
+    "comments": 3,
+    "dangerZones": [],
+    "safeExplanation": {
+      "whatMakesSafe": "This image doesn't have any paper or document that expose personal information.",
+      "whyOk": [
+        "Generic book covers with no readable text",
+        "No address or location details in the background"
+      ],
+      "keepSharing": "Reading spaces and cozy corners are perfect for social media."
+    }
+  },
+  {
+    "id": "post16",
+    "index": 16,
+    "type": "safe",
+    "category": null,
+    "imageKey": "basketball",
+    "username": "t_om",
+    "caption": "Hoop life 🏀",
+    "tags": ["#basketball", "#sports"],
+    "likes": 24,
+    "comments": 5,
+    "dangerZones": [],
+    "safeExplanation": {
+      "whatMakesSafe": "This shows you playing basketball without revealing where you practice.",
+      "whyOk": [
+        "Generic outdoor court",
+        "No team names or jerseys with school info"
+      ],
+      "keepSharing": "Sports action shots are great for social media but check description before posting."
+    }
+  },
+  {
+    "id": "post17",
+    "index": 17,
+    "type": "safe",
+    "category": null,
+    "imageKey": "band",
+    "username": "kindInd",
+    "caption": "Band practice 🎸",
+    "tags": ["#band", "#music"],
+    "likes": 19,
+    "comments": 4,
+    "dangerZones": [],
+    "safeExplanation": {
+      "whatMakesSafe": "This band photo shows your musical interests without revealing personal information.",
+      "whyOk": [
+        "Generic practice space background",
+        "Just shows your hobby and friends"
+      ],
+      "keepSharing": "Music, hobbies, and friend group photos are safe when the background and location is generic."
+    }
+  },
+  {
+    "id": "post18",
+    "index": 18,
+    "type": "safe",
+    "category": null,
+    "imageKey": "craft",
+    "username": "mary_trg",
+    "caption": "DIY project in progress 🧵",
+    "tags": ["#craft", "#diy"],
+    "likes": 13,
+    "comments": 2,
+    "dangerZones": [],
+    "safeExplanation": {
+      "whatMakesSafe": "The image is safe because it was taken from the top and has a closeup view.",
+      "whyOk": [
+        "Just shows your craft supplies and project",
+        "No papers with names or addresses"
+      ],
+      "keepSharing": "Craft projects and creative hobbies are great content to share!"
+    }
+  },
+  {
+    "id": "post19",
+    "index": 19,
+    "type": "safe",
+    "category": null,
+    "imageKey": "friends",
+    "username": "vivet",
+    "caption": "Squad 💕",
+    "tags": ["#friends", "#squad"],
+    "likes": 67,
+    "comments": 11,
+    "dangerZones": [],
+    "safeExplanation": {
+      "whatMakesSafe": "The photo's backgrounds are blurred and no personal information is being revealed.",
+      "whyOk": [
+        "Background is completely blurred",
+        "No location identifiers visible"
+      ],
+      "keepSharing": "Friend group photos are safe when you blur the background and are generic."
+    }
+  },
+  {
+    "id": "post20",
+    "index": 20,
+    "type": "safe",
+    "category": null,
+    "imageKey": "trophies",
+    "username": "jakesin_",
+    "caption": "Hard work pays off 🏆",
+    "tags": ["#trophy", "#proud"],
+    "likes": 38,
+    "comments": 9,
+    "dangerZones": [],
+    "safeExplanation": {
+      "whatMakesSafe": "This post is completely safe since the trophy has NO school name or personal information.",
+      "whyOk": [
+        "No text revealing which school",
+        "No room number or team name"
+      ],
+      "keepSharing": "Celebrating your achievements is a proud thing to share!"
     }
   }
 ]
