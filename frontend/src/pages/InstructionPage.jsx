@@ -1,6 +1,7 @@
 import React from 'react'
-
+import { useNavigate } from 'react-router-dom'
 export default function InstructionPage() {
+  const navigate = useNavigate()
   return (
     <div className='flex flex-col items-center justify-center h-screen'>
       <div className='flex flex-col items-center justify-center w-[50%] mx-auto bg-amber-100 rounded-lg gap-4 p-10'>
@@ -36,7 +37,7 @@ export default function InstructionPage() {
           </ul>
         </div>
 
-        <button className='bg-blue-500 text-white p-2 rounded-md'>Start</button>
+        <button onClick={() => navigate('/game')} className='bg-blue-500 text-white p-2 rounded-md'>Start</button>
       </div>
     </div>
   )
