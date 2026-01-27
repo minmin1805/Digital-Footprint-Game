@@ -1,27 +1,17 @@
 import { useState } from 'react'
-import {createPlayer} from '../services/playerService'
 import { useNavigate } from 'react-router-dom'
+import { useGame } from '../src/context/GameContext.jsx'
 
 const useWelcomePage = () => {
     const navigate = useNavigate()
     const [username, setUsername] = useState('')
+    const { createPlayerAndGo, playerError, setPlayerError } = useGame()
 
     const handleStart = async () => {
-        if(username.trim()) {
-            try {
-                const createdPlayer = await createPlayer(username);
-                navigate('/instructions');
-            } catch (error) {
-                console.error('Error creating player:', error)
-                alert('Failed to create player. Please try again.')
-            }
-        }
-        else {
-            alert('Please enter a valid username')
-        }
+        await createPlayerAndGo(username, navigate)
     }
 
-    return {setUsername, handleStart }
+    return { username, setUsername, handleStart, playerError, setPlayerError }
 }
 
 export default useWelcomePage;
