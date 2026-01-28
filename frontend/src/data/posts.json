@@ -385,6 +385,7 @@
     "comments": 2,
     "dangerZones": [],
     "safeExplanation": {
+      "title": "Sunset/nature",
       "whatMakesSafe": "Pictures like this are safe to share when there are no identifiable objects in the description.",
       "whyOk": [
         "No identifiable landmarks",
