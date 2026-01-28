@@ -1,4 +1,7 @@
 import React from 'react'
+import alertIcon from '../assets/GamePage/UnsafePost/alerticon.png'
+import hackerIcon from '../assets/GamePage/UnsafePost/hackericon.png'
+import lightbulbIcon from '../assets/GamePage/UnsafePost/lightbulbicon.png'
 
 /**
  * Unsafe alert popup – shown when player correctly spots a privacy risk.
@@ -28,9 +31,7 @@ function UnsafePopup({ post, zone, onClose }) {
       >
         {/* Header: Unsafe alert */}
         <div className="flex items-center gap-3 px-4 py-3 bg-[#A93226]">
-          <div className="flex shrink-0 items-center justify-center w-10 h-10 rounded-full bg-amber-400">
-            <span className="text-2xl font-bold text-black">!</span>
-          </div>
+          <img src={alertIcon} alt="alert" className='w-25 h-20 mr-1' />
           <h2 id="unsafe-popup-title" className="text-4xl font-bold text-white">
             Unsafe alert
           </h2>
@@ -38,18 +39,26 @@ function UnsafePopup({ post, zone, onClose }) {
 
         {/* Body */}
         <div className="px-4 py-4 space-y-4">
-          <div>
-            <p className="text-2xl text-gray-900">
-              POST {post.index} – {title}
-            </p>
-            <div className=" my-2 h-px bg-gray-300" />
-            <p className="text-xl text-gray-800">
-              <span className="font-semibold">Category:</span>{' '}
-              {categoryLabel.charAt(0).toUpperCase() + categoryLabel.slice(1)}
-            </p>
-            <p className="text-xl text-gray-800 mt-1">
-              <span className="font-semibold">What you found:</span> {whatFound}
-            </p>
+          <div className="flex items-start gap-4">
+            <div className="flex-1 min-w-0">
+              <p className="text-2xl text-gray-900">
+                POST {post.index} – {title}
+              </p>
+              <div className="my-3 h-[2px] bg-gray-800 my-2" />
+              <p className="text-xl text-gray-800">
+                <span className="font-semibold">Category:</span>{' '}
+                {categoryLabel.charAt(0).toUpperCase() + categoryLabel.slice(1)}
+              </p>
+              <p className="text-xl text-gray-800 mt-1">
+                <span className="font-semibold">What you found:</span> {whatFound}
+              </p>
+            </div>
+            <img
+              src={hackerIcon}
+              alt=""
+              className="w-30 h-30 shrink-0 object-contain mt-4"
+              aria-hidden
+            />
           </div>
 
           {/* Why this is dangerous */}
@@ -79,14 +88,10 @@ function UnsafePopup({ post, zone, onClose }) {
           </div>
 
           {/* Quick tip */}
-          <div>
+          <div className="rounded-lg overflow-hidden py-2 px-3 bg-gray-100">
             <div className="flex items-center gap-2 mb-2">
-              <span className="text-amber-500" aria-hidden>
-                <svg className="w-12 h-12" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1h4v1a2 2 0 11-4 0zM12 14c.015-.34.208-.646.477-.859a4 4 0 10-4.954 0c.27.213.462.519.476.859h4.002z" />
-                </svg>
-              </span>
-              <p className="text-2xl font-bold text-gray-900">Quick tip:</p>
+              <img src={lightbulbIcon} alt="lightbulb" className='w-12 h-12 mr-1' />
+              <p className="text-2xl font-bold text-gray-900 mt-1">Quick tip:</p>
             </div>
             <div className="h-px bg-gray-200 mb-2" />
             <p className="text-lg text-gray-800">{quickTip}</p>
