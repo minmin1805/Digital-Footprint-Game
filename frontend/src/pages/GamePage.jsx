@@ -3,8 +3,13 @@ import ProgressBar from '../components/ProgressBar'
 import FriendSection from '../components/FriendSection'
 import MenuBar from '../components/MenuBar'
 import MessageBar from '../components/MessageBar'
-
+import Post from '../components/Post'
+import posts from '../data/posts.json'
+import { useGame } from '../context/GameContext'
 function GamePage() {
+  const { posts, score } = useGame()
+  const samplePost = posts?.[0]
+
   return (
     <div className='flex flex-col items-center h-screen w-[55%] mx-auto bg-blue-200'>
       
@@ -25,6 +30,11 @@ function GamePage() {
       {/* menu bar on left */}
       <div>
         <MenuBar />
+      </div>
+
+      {/* post section */}
+      <div>
+        <Post post={samplePost} />
       </div>
 
       {/* messagebar on right */}
