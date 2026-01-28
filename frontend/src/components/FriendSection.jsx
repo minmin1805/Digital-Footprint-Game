@@ -47,8 +47,8 @@ function FriendSection() {
         {friendsInfo.map((eachFriend) => {
             return (
                 <div key={eachFriend.id} className='flex flex-col items-center justify-center gap-2'>
-                    <img src={eachFriend.image} alt={eachFriend.name} className='w-15 h-15 rounded-full border-2 border-gray-300' />
-                    <p className='text-sm font-bold'>{eachFriend.name}</p>
+                    <img src={eachFriend.image} alt={eachFriend.name} className='w-20 h-20 rounded-full border-2 border-gray-300' />
+                    <p className='text-md'>{eachFriend.name}</p>
                 </div>
             )
         })}
