@@ -7,6 +7,7 @@ import MessageBar from '../components/MessageBar'
 import Post from '../components/Post'
 import UnsafePopup from '../components/UnsafePopup'
 import SafePopup from '../components/SafePopup'
+import GameEndPopup from '../components/GameEndPopup'
 
 function GamePage() {
   const { posts, score } = useGame()
@@ -19,6 +20,7 @@ function GamePage() {
   const unsafePopupData = posts?.find((p) => p.id === 'post5')
   const unsafeZone = unsafePopupData?.dangerZones?.[0]
   const safePopupData = posts?.find((p) => p.id === 'post13')
+  const [showGameEndPopup, setShowGameEndPopup] = useState(false)
 
   return (
     <div className="flex flex-col items-center h-screen w-[55%] mx-auto bg-blue-200">
@@ -49,6 +51,15 @@ function GamePage() {
             className="rounded"
           />
           Show safe popup
+        </label>
+        <label className="flex items-center gap-2 cursor-pointer text-sm font-medium text-gray-800">
+          <input
+            type="checkbox"
+            checked={showGameEndPopup}
+            onChange={(e) => setShowGameEndPopup(e.target.checked)}
+            className="rounded"
+          />
+          Show game end popup
         </label>
       </div>
 
@@ -86,6 +97,13 @@ function GamePage() {
         <SafePopup
           post={safePopupData}
           onClose={() => setShowSafePopup(false)}
+        />
+      )}
+
+      {/* Game end popup */}
+      {showGameEndPopup && (
+        <GameEndPopup
+          onClose={() => setShowGameEndPopup(false)}
         />
       )}
     </div>
