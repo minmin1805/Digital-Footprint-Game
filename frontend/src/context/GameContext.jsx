@@ -28,6 +28,7 @@ export function GameProvider({ children }) {
   const [countdownValue, setCountdownValue] = useState(3)
   const [safePostClickCounts, setSafePostClickCounts] = useState({}) // { postId: number }
   const [gameStartTime, setGameStartTime] = useState(null) // for playingTimeSeconds later
+  const [scrollDelayActive, setScrollDelayActive] = useState(false) // true = hold feed still for 1.5s after countdown
 
   // --- Step 4.3: Load posts and add imageUrl from postImageMap ---
   const posts = useMemo(() => {
@@ -126,6 +127,8 @@ export function GameProvider({ children }) {
     setSafePostClickCounts,
     gameStartTime,
     setGameStartTime,
+    scrollDelayActive,
+    setScrollDelayActive,
     posts,
     handleCorrectClick,
     handleIncorrectClick,

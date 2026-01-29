@@ -18,6 +18,7 @@ function useScroll(viewportRef, feedInnerRef) {
     isPaused,
     countdownActive,
     gameComplete,
+    scrollDelayActive,
   } = useGame()
   const rafIdRef = useRef(null)
 
@@ -35,7 +36,11 @@ function useScroll(viewportRef, feedInnerRef) {
       const maxScroll = Math.max(0, feedHeight - viewportHeight)
 
       const shouldScroll =
-        !countdownActive && !isPaused && !gameComplete && maxScroll > 0
+        !countdownActive &&
+        !scrollDelayActive &&
+        !isPaused &&
+        !gameComplete &&
+        maxScroll > 0
 
       if (shouldScroll) {
         setScrollPosition((prev) => {
@@ -58,6 +63,7 @@ function useScroll(viewportRef, feedInnerRef) {
     viewportRef,
     feedInnerRef,
     countdownActive,
+    scrollDelayActive,
     isPaused,
     gameComplete,
     setScrollPosition,

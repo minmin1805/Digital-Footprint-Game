@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react'
+import React, { useEffect, useCallback, useRef } from 'react'
 import { useGame } from '../context/GameContext'
 import ProgressBar from '../components/ProgressBar'
 import FriendSection from '../components/FriendSection'
@@ -25,23 +25,30 @@ function GamePage() {
     setIsPaused,
     setGameComplete,
     setSafePostClickCounts,
+    setScrollDelayActive,
     currentPopup,
     handleUnsafePopupContinue,
     handleSafePopupContinue,
     handleCompletionClose,
   } = useGame()
 
+  const scrollDelayTimerRef = useRef(null)
+
   useEffect(() => {
     setCountdownValue(3)
     setCountdownActive(true)
     setGameStartTime(null)
     setScrollPosition(0)
+    setScrollDelayActive(false)
     setScore(0)
     setFoundItems([])
     setCurrentPopup(null)
     setIsPaused(false)
     setGameComplete(false)
     setSafePostClickCounts({})
+    return () => {
+      if (scrollDelayTimerRef.current) clearTimeout(scrollDelayTimerRef.current)
+    }
   }, [
     setCountdownValue,
     setCountdownActive,
@@ -53,12 +60,19 @@ function GamePage() {
     setIsPaused,
     setGameComplete,
     setSafePostClickCounts,
+    setScrollDelayActive,
   ])
 
   const handleCountdownComplete = useCallback(() => {
     setCountdownActive(false)
     setGameStartTime(Date.now())
-  }, [setCountdownActive, setGameStartTime])
+    setScrollDelayActive(true)
+    if (scrollDelayTimerRef.current) clearTimeout(scrollDelayTimerRef.current)
+    scrollDelayTimerRef.current = setTimeout(() => {
+      setScrollDelayActive(false)
+      scrollDelayTimerRef.current = null
+    }, 1500)
+  }, [setCountdownActive, setGameStartTime, setScrollDelayActive])
 
   const categoriesFound = new Set(foundItems.map((f) => f.category)).size
 
