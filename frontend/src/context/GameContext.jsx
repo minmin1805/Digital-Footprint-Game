@@ -70,7 +70,7 @@ export function GameProvider({ children }) {
     if (post.type !== 'safe') return
     const next = { ...safePostClickCounts, [post.id]: (safePostClickCounts[post.id] ?? 0) + 1 }
     setSafePostClickCounts(next)
-    if (next[post.id] > 3) {
+    if (next[post.id] > 2) {
       setIsPaused(true)
       setCurrentPopup({ type: 'safe', data: { post } })
     }

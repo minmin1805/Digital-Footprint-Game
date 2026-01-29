@@ -54,8 +54,17 @@ function Post({ post, onCorrectClick, onIncorrectClick }) {
     onCorrectClick(post, zones[0])
   }, [post, zones, isCaptionDanger, onCorrectClick])
 
+  const handleSafePostClick = useCallback(() => {
+    if (onIncorrectClick) onIncorrectClick(post)
+  }, [post, onIncorrectClick])
+
+  const isSafe = post.type === 'safe'
+
   return (
-    <article className="w-full max-w-[600px] shrink-0 bg-white rounded-2xl border border-gray-800 overflow-hidden shadow-sm">
+    <article
+      className={`w-full max-w-[600px] shrink-0 bg-white rounded-2xl border border-gray-800 overflow-hidden shadow-sm ${isSafe ? 'cursor-pointer' : ''}`}
+      {...(isSafe && { onClick: handleSafePostClick })}
+    >
       {/* Header: avatar + username */}
       <div className="flex items-center gap-3 px-4 py-3">
         <div
@@ -66,10 +75,10 @@ function Post({ post, onCorrectClick, onIncorrectClick }) {
       </div>
       <div className='w-full h-[1px] bg-gray-900 my-2'></div>
 
-      {/* Main image — clickable for zone hit-test */}
+      {/* Main image — clickable for zone hit-test (danger posts only); safe posts use whole-post click */}
       <div
-        onClick={handleImageClick}
-        className="relative w-full aspect-square bg-gray-100 cursor-pointer"
+        className={`relative w-full aspect-square bg-gray-100 ${!isSafe ? 'cursor-pointer' : ''}`}
+        {...(!isSafe && { onClick: handleImageClick })}
       >
         {imageUrl ? (
           <img
