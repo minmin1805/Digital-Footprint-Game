@@ -7,7 +7,7 @@ import banner from "../assets/GamePage/EndGamePopup/banner.png";
 import { IoMdDownload } from "react-icons/io";
 import redpin from "../assets/GamePage/EndGamePopup/redpin.png";
 
-function GameEndPopup({ onClose }) {
+function GameEndPopup({ onClose, unsafePostsFound = 0 }) {
   return (
     <div className="fixed flex items-center justify-center p-4 inset-0 z-50 pt-20 ">
       {/* Blurred backdrop */}
@@ -29,8 +29,9 @@ function GameEndPopup({ onClose }) {
           <div className="bg-amber-100 rounded-2xl flex flex-col items-center justify-center pt-16 overflow-hidden">
             <div className="flex justify-between items-center w-full">
               <p className="max-w-2xl text-center text-2xl font-bold text-gray-900 ml-5 mt-2">
-                You found 8/8 privacy risks and learned to protect your digital
-                footprint!
+                You found all 5 privacy risk categories and learned to protect
+                your digital footprint! You spotted {unsafePostsFound} unsafe
+                post{unsafePostsFound === 1 ? '' : 's'} in total.
               </p>
               <img
                 src={detectivekid}

@@ -13,6 +13,7 @@ import CountdownOverlay from '../components/CountdownOverlay'
 function GamePage() {
   const {
     score,
+    foundItems,
     countdownActive,
     setCountdownActive,
     setCountdownValue,
@@ -59,6 +60,8 @@ function GamePage() {
     setGameStartTime(Date.now())
   }, [setCountdownActive, setGameStartTime])
 
+  const categoriesFound = new Set(foundItems.map((f) => f.category)).size
+
   return (
     <div className="relative flex flex-col items-center h-screen w-[55%] mx-auto bg-blue-200 overflow-hidden">
       {countdownActive && (
@@ -67,7 +70,7 @@ function GamePage() {
       {/* Banner + progress */}
       <div className="flex flex-col items-center justify-center p-4 gap-4 bg-yellow-300 rounded-xl mt-3">
         <h1 className="text-3xl font-bold text-center text-blue-500">Digital footprint detective</h1>
-        <ProgressBar currentStep={score} totalSteps={8} />
+        <ProgressBar currentStep={categoriesFound} totalSteps={5} label="categories" />
       </div>
 
       <div className="w-full h-px bg-gray-900 my-4" />
@@ -107,7 +110,7 @@ function GamePage() {
         />
       )}
       {currentPopup?.type === 'completion' && (
-        <GameEndPopup onClose={handleCompletionClose} />
+        <GameEndPopup onClose={handleCompletionClose} unsafePostsFound={score} />
       )}
     </div>
   )

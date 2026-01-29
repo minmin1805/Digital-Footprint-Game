@@ -59,11 +59,14 @@ export function GameProvider({ children }) {
 
   const handleCorrectClick = (post, zone) => {
     if (foundItems.some((f) => f.zoneId === zone.id)) return // already found
+    const newItem = { postId: post.id, zoneId: zone.id, category: zone.category }
+    const updatedFound = [...foundItems, newItem]
+    const categories = new Set(updatedFound.map((f) => f.category))
     setIsPaused(true)
-    setFoundItems((prev) => [...prev, { postId: post.id, zoneId: zone.id, category: zone.category }])
+    setFoundItems((prev) => [...prev, newItem])
     setScore((s) => s + 1)
     setCurrentPopup({ type: 'unsafe', data: { post, zone } })
-    if (score + 1 >= 8) setGameComplete(true)
+    if (categories.size >= 5) setGameComplete(true)
   }
 
   const handleIncorrectClick = (post) => {
@@ -77,7 +80,8 @@ export function GameProvider({ children }) {
   }
 
   const handleUnsafePopupContinue = () => {
-    if (score >= 8) {
+    const categories = new Set(foundItems.map((f) => f.category))
+    if (categories.size >= 5) {
       setCurrentPopup({ type: 'completion', data: {} })
     } else {
       setCurrentPopup(null)
