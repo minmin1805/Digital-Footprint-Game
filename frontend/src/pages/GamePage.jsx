@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useGame } from '../context/GameContext'
 import ProgressBar from '../components/ProgressBar'
 import FriendSection from '../components/FriendSection'
@@ -8,9 +8,28 @@ import Post from '../components/Post'
 import UnsafePopup from '../components/UnsafePopup'
 import SafePopup from '../components/SafePopup'
 import GameEndPopup from '../components/GameEndPopup'
+import CountdownOverlay from '../components/CountdownOverlay'
 
 function GamePage() {
-  const { posts, score } = useGame()
+  const {
+    posts,
+    score,
+    countdownActive,
+    setCountdownActive,
+    setCountdownValue,
+    setGameStartTime,
+  } = useGame()
+
+  useEffect(() => {
+    setCountdownValue(3)
+    setCountdownActive(true)
+    setGameStartTime(null)
+  }, [setCountdownValue, setCountdownActive, setGameStartTime])
+
+  const handleCountdownComplete = useCallback(() => {
+    setCountdownActive(false)
+    setGameStartTime(Date.now())
+  }, [setCountdownActive, setGameStartTime])
 
   /** Stub: controls popup visibility for design tweaks. */
   const [showUnsafePopup, setShowUnsafePopup] = useState(false)
@@ -23,7 +42,10 @@ function GamePage() {
   const [showGameEndPopup, setShowGameEndPopup] = useState(false)
 
   return (
-    <div className="flex flex-col items-center h-screen w-[55%] mx-auto bg-blue-200">
+    <div className="relative flex flex-col items-center h-screen w-[55%] mx-auto bg-blue-200">
+      {countdownActive && (
+        <CountdownOverlay onComplete={handleCountdownComplete} />
+      )}
       {/* Banner + progress */}
       <div className="flex flex-col items-center justify-center p-4 gap-4 bg-yellow-300 rounded-xl mt-3">
         <h1 className="text-3xl font-bold text-center text-blue-500">Digital footprint detective</h1>
