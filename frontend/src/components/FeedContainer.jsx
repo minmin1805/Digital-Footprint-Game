@@ -3,13 +3,9 @@ import { useGame } from '../context/GameContext'
 import useScroll from '../../hooks/useScroll.js'
 import Post from './Post'
 
-/**
- * Phase B: Scrollable feed of all posts. Viewport has fixed height + overflow hidden.
- * Inner wrapper uses translateY(-scrollPosition). useScroll drives scrollPosition
- * via requestAnimationFrame (pauses when isPaused or countdownActive).
- */
+
 function FeedContainer() {
-  const { posts, scrollPosition } = useGame()
+  const { posts, scrollPosition, handleCorrectClick, handleIncorrectClick } = useGame()
   const viewportRef = useRef(null)
   const feedInnerRef = useRef(null)
 
@@ -34,7 +30,12 @@ function FeedContainer() {
         style={{ transform: `translateY(-${scrollPosition}px)` }}
       >
         {posts.map((post) => (
-          <Post key={post.id} post={post} />
+          <Post
+            key={post.id}
+            post={post}
+            onCorrectClick={handleCorrectClick}
+            onIncorrectClick={handleIncorrectClick}
+          />
         ))}
       </div>
     </div>

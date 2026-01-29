@@ -1,9 +1,58 @@
-import React from 'react'
+import React, { useCallback } from 'react'
+import {
+  getImageRelativeClick,
+  toOriginalCoords,
+  isPointInZone,
+} from '../lib/clickDetection'
 
-function Post({ post }) {
+const CAPTION_DANGER_IDS = ['post5', 'post7']
+
+function Post({ post, onCorrectClick, onIncorrectClick }) {
   const { username, imageUrl, likes, comments, caption, tags = [] } = post
-
   const tagString = Array.isArray(tags) ? tags.join(' ') : ''
+  const zones = post.dangerZones ?? []
+  const orig = zones[0]
+  const isCaptionDanger = CAPTION_DANGER_IDS.includes(post.id)
+
+  const handleImageClick = useCallback(
+    (ev) => {
+      if (!onCorrectClick || !onIncorrectClick) return
+      if (isCaptionDanger) return
+
+      const el = ev.currentTarget
+      const { x: relX, y: relY } = getImageRelativeClick(ev, el)
+      const displayW = el.offsetWidth
+      const displayH = el.offsetHeight
+
+      if (zones.length > 0 && orig) {
+        const { x: origX, y: origY } = toOriginalCoords(
+          relX,
+          relY,
+          displayW,
+          displayH,
+          orig.originalWidth,
+          orig.originalHeight
+        )
+        for (const zone of zones) {
+          if (isPointInZone(origX, origY, zone)) {
+            onCorrectClick(post, zone)
+            return
+          }
+        }
+        if (post.type === 'danger') return
+      }
+
+      if (post.type === 'safe') {
+        onIncorrectClick(post)
+      }
+    },
+    [post, zones, orig, isCaptionDanger, onCorrectClick, onIncorrectClick]
+  )
+
+  const handleCaptionClick = useCallback(() => {
+    if (!onCorrectClick || !zones.length || !isCaptionDanger) return
+    onCorrectClick(post, zones[0])
+  }, [post, zones, isCaptionDanger, onCorrectClick])
 
   return (
     <article className="w-full max-w-[600px] shrink-0 bg-white rounded-2xl border border-gray-800 overflow-hidden shadow-sm">
@@ -17,13 +66,17 @@ function Post({ post }) {
       </div>
       <div className='w-full h-[1px] bg-gray-900 my-2'></div>
 
-      {/* Main image */}
-      <div className="relative w-full aspect-square bg-gray-100">
+      {/* Main image — clickable for zone hit-test */}
+      <div
+        onClick={handleImageClick}
+        className="relative w-full aspect-square bg-gray-100 cursor-pointer"
+      >
         {imageUrl ? (
           <img
             src={imageUrl}
             alt=""
             className="w-full h-full object-cover"
+            draggable={false}
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-gray-400 text-sm">
@@ -67,12 +120,27 @@ function Post({ post }) {
         </div>
 
         {caption && (
-          <p className="text-lg text-gray-800 leading-snug break-words">
-            {caption}
-            {tagString && (
-              <span className="text-gray-500"> {tagString}</span>
-            )}
-          </p>
+          isCaptionDanger ? (
+            <div
+              role="button"
+              tabIndex={0}
+              onClick={handleCaptionClick}
+              onKeyDown={(e) => e.key === 'Enter' && handleCaptionClick()}
+              className="text-lg text-gray-800 leading-snug break-words cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-400 rounded"
+            >
+              {caption}
+              {tagString && (
+                <span className="text-gray-500"> {tagString}</span>
+              )}
+            </div>
+          ) : (
+            <p className="text-lg text-gray-800 leading-snug break-words">
+              {caption}
+              {tagString && (
+                <span className="text-gray-500"> {tagString}</span>
+              )}
+            </p>
+          )
         )}
       </div>
     </article>

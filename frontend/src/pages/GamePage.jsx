@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useEffect, useCallback } from 'react'
 import { useGame } from '../context/GameContext'
 import ProgressBar from '../components/ProgressBar'
 import FriendSection from '../components/FriendSection'
@@ -12,13 +12,22 @@ import CountdownOverlay from '../components/CountdownOverlay'
 
 function GamePage() {
   const {
-    posts,
     score,
     countdownActive,
     setCountdownActive,
     setCountdownValue,
     setGameStartTime,
     setScrollPosition,
+    setScore,
+    setFoundItems,
+    setCurrentPopup,
+    setIsPaused,
+    setGameComplete,
+    setSafePostClickCounts,
+    currentPopup,
+    handleUnsafePopupContinue,
+    handleSafePopupContinue,
+    handleCompletionClose,
   } = useGame()
 
   useEffect(() => {
@@ -26,21 +35,29 @@ function GamePage() {
     setCountdownActive(true)
     setGameStartTime(null)
     setScrollPosition(0)
-  }, [setCountdownValue, setCountdownActive, setGameStartTime, setScrollPosition])
+    setScore(0)
+    setFoundItems([])
+    setCurrentPopup(null)
+    setIsPaused(false)
+    setGameComplete(false)
+    setSafePostClickCounts({})
+  }, [
+    setCountdownValue,
+    setCountdownActive,
+    setGameStartTime,
+    setScrollPosition,
+    setScore,
+    setFoundItems,
+    setCurrentPopup,
+    setIsPaused,
+    setGameComplete,
+    setSafePostClickCounts,
+  ])
 
   const handleCountdownComplete = useCallback(() => {
     setCountdownActive(false)
     setGameStartTime(Date.now())
   }, [setCountdownActive, setGameStartTime])
-
-  /** Stub: controls popup visibility for design tweaks. */
-  const [showUnsafePopup, setShowUnsafePopup] = useState(false)
-  const [showSafePopup, setShowSafePopup] = useState(false)
-
-  const unsafePopupData = posts?.find((p) => p.id === 'post5')
-  const unsafeZone = unsafePopupData?.dangerZones?.[0]
-  const safePopupData = posts?.find((p) => p.id === 'post13')
-  const [showGameEndPopup, setShowGameEndPopup] = useState(false)
 
   return (
     <div className="relative flex flex-col items-center h-screen w-[55%] mx-auto bg-blue-200 overflow-hidden">
@@ -54,37 +71,6 @@ function GamePage() {
       </div>
 
       <div className="w-full h-px bg-gray-900 my-4" />
-
-      {/* Stub: toggles to show popups (for design). Remove when game logic is wired. */}
-      <div className="flex items-center gap-6 mb-2">
-        <label className="flex items-center gap-2 cursor-pointer text-sm font-medium text-gray-800">
-          <input
-            type="checkbox"
-            checked={showUnsafePopup}
-            onChange={(e) => setShowUnsafePopup(e.target.checked)}
-            className="rounded"
-          />
-          Show unsafe popup
-        </label>
-        <label className="flex items-center gap-2 cursor-pointer text-sm font-medium text-gray-800">
-          <input
-            type="checkbox"
-            checked={showSafePopup}
-            onChange={(e) => setShowSafePopup(e.target.checked)}
-            className="rounded"
-          />
-          Show safe popup
-        </label>
-        <label className="flex items-center gap-2 cursor-pointer text-sm font-medium text-gray-800">
-          <input
-            type="checkbox"
-            checked={showGameEndPopup}
-            onChange={(e) => setShowGameEndPopup(e.target.checked)}
-            className="rounded"
-          />
-          Show game end popup
-        </label>
-      </div>
 
       {/* Friends */}
       <div>
@@ -106,28 +92,22 @@ function GamePage() {
         </div>
       </div>
 
-      {/* Unsafe popup (blurred background + popup on top) */}
-      {showUnsafePopup && unsafePopupData && unsafeZone && (
+      {/* Popups driven by currentPopup */}
+      {currentPopup?.type === 'unsafe' && currentPopup.data?.post && currentPopup.data?.zone && (
         <UnsafePopup
-          post={unsafePopupData}
-          zone={unsafeZone}
-          onClose={() => setShowUnsafePopup(false)}
+          post={currentPopup.data.post}
+          zone={currentPopup.data.zone}
+          onClose={handleUnsafePopupContinue}
         />
       )}
-
-      {/* Safe popup (blurred background + popup on top) */}
-      {showSafePopup && safePopupData && (
+      {currentPopup?.type === 'safe' && currentPopup.data?.post && (
         <SafePopup
-          post={safePopupData}
-          onClose={() => setShowSafePopup(false)}
+          post={currentPopup.data.post}
+          onClose={handleSafePopupContinue}
         />
       )}
-
-      {/* Game end popup */}
-      {showGameEndPopup && (
-        <GameEndPopup
-          onClose={() => setShowGameEndPopup(false)}
-        />
+      {currentPopup?.type === 'completion' && (
+        <GameEndPopup onClose={handleCompletionClose} />
       )}
     </div>
   )
