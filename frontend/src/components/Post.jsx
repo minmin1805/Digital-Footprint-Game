@@ -6,7 +6,7 @@ function Post({ post }) {
   const tagString = Array.isArray(tags) ? tags.join(' ') : ''
 
   return (
-    <article className="w-full max-w-[600px] bg-white rounded-2xl border border-gray-800 overflow-hidden shadow-sm">
+    <article className="w-full max-w-[600px] shrink-0 bg-white rounded-2xl border border-gray-800 overflow-hidden shadow-sm">
       {/* Header: avatar + username */}
       <div className="flex items-center gap-3 px-4 py-3">
         <div

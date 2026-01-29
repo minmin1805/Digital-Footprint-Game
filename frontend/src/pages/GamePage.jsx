@@ -4,7 +4,7 @@ import ProgressBar from '../components/ProgressBar'
 import FriendSection from '../components/FriendSection'
 import MenuBar from '../components/MenuBar'
 import MessageBar from '../components/MessageBar'
-import Post from '../components/Post'
+import FeedContainer from '../components/FeedContainer'
 import UnsafePopup from '../components/UnsafePopup'
 import SafePopup from '../components/SafePopup'
 import GameEndPopup from '../components/GameEndPopup'
@@ -18,13 +18,15 @@ function GamePage() {
     setCountdownActive,
     setCountdownValue,
     setGameStartTime,
+    setScrollPosition,
   } = useGame()
 
   useEffect(() => {
     setCountdownValue(3)
     setCountdownActive(true)
     setGameStartTime(null)
-  }, [setCountdownValue, setCountdownActive, setGameStartTime])
+    setScrollPosition(0)
+  }, [setCountdownValue, setCountdownActive, setGameStartTime, setScrollPosition])
 
   const handleCountdownComplete = useCallback(() => {
     setCountdownActive(false)
@@ -35,14 +37,13 @@ function GamePage() {
   const [showUnsafePopup, setShowUnsafePopup] = useState(false)
   const [showSafePopup, setShowSafePopup] = useState(false)
 
-  const samplePost = posts?.find((p) => p.id === 'post5') ?? posts?.[0]
   const unsafePopupData = posts?.find((p) => p.id === 'post5')
   const unsafeZone = unsafePopupData?.dangerZones?.[0]
   const safePopupData = posts?.find((p) => p.id === 'post13')
   const [showGameEndPopup, setShowGameEndPopup] = useState(false)
 
   return (
-    <div className="relative flex flex-col items-center h-screen w-[55%] mx-auto bg-blue-200">
+    <div className="relative flex flex-col items-center h-screen w-[55%] mx-auto bg-blue-200 overflow-hidden">
       {countdownActive && (
         <CountdownOverlay onComplete={handleCountdownComplete} />
       )}
@@ -90,17 +91,17 @@ function GamePage() {
         <FriendSection />
       </div>
 
-      {/* Main: MenuBar | Post | MessageBar */}
-      <div className="flex items-center justify-between w-full p-5 mt-6">
-        <div>
+      {/* Main: MenuBar | Feed (scrollable) | MessageBar */}
+      <div className="flex items-stretch justify-between w-full flex-1 min-h-0 p-5 mt-2">
+        <div className="shrink-0">
           <MenuBar />
         </div>
 
-        <div>
-          <Post post={samplePost} />
+        <div className="flex-1 min-w-0 flex justify-center items-stretch overflow-hidden">
+          <FeedContainer />
         </div>
 
-        <div>
+        <div className="shrink-0">
           <MessageBar />
         </div>
       </div>
