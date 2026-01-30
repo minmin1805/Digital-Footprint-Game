@@ -1,13 +1,31 @@
 import React from "react";
+import { jsPDF } from "jspdf";
 import detectivekid from "../assets/GamePage/EndGamePopup/detectivekid.png";
 import { TiTick } from "react-icons/ti";
-import { TiPin } from "react-icons/ti";
 import sheildlogo from "../assets/GamePage/EndGamePopup/shieldlogo.png";
 import banner from "../assets/GamePage/EndGamePopup/banner.png";
 import { IoMdDownload } from "react-icons/io";
 import redpin from "../assets/GamePage/EndGamePopup/redpin.png";
 
-function GameEndPopup({ onClose, unsafePostsFound = 0 }) {
+function downloadSafetyChecklist() {
+  const doc = new jsPDF();
+  doc.setFontSize(16);
+  doc.text("Digital Footprint Detective - Safety Checklist", 20, 30);
+  doc.setFontSize(12);
+  doc.text("Before you post online, check:", 20, 50);
+  doc.text("- What's in the background?", 20, 65);
+  doc.text("- What does the text say?", 20, 78);
+  doc.text("- Are location tags on?", 20, 91);
+  doc.text("- Could someone find me with this info?", 20, 104);
+  doc.save("safety-checklist.pdf");
+}
+
+function GameEndPopup({
+  onPlayAgain,
+  unsafePostsFound = 0,
+  playAgainLoading = false,
+  playAgainError = null,
+}) {
   return (
     <div className="fixed flex items-center justify-center p-4 inset-0 z-50 pt-20 ">
       {/* Blurred backdrop */}
@@ -122,16 +140,24 @@ function GameEndPopup({ onClose, unsafePostsFound = 0 }) {
               </span>{" "}
               Use these skills every time you post online.
             </p>
-            <div className="mt-7 flex items-center justify-center gap-3 mb-7">
-              <button className="w-full py-3 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-bold text-center transition-colors flex items-center justify-center gap-2">
+            <div className="mt-7 flex flex-col items-center gap-3 mb-7">
+              <button
+                type="button"
+                onClick={downloadSafetyChecklist}
+                className="w-full py-3 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-bold text-center transition-colors flex items-center justify-center gap-2"
+              >
                 <IoMdDownload className="w-6 h-6" />
                 Download Safety Checklist!
               </button>
+              {playAgainError && (
+                <p className="text-sm text-amber-700">{playAgainError}</p>
+              )}
               <button
-                onClick={onClose}
-                className="w-full py-3 rounded-xl bg-green-600 hover:bg-green-700 text-white font-bold text-center transition-colors"
+                onClick={onPlayAgain}
+                disabled={playAgainLoading}
+                className="w-full py-3 rounded-xl bg-green-600 hover:bg-green-700 disabled:opacity-70 disabled:cursor-not-allowed text-white font-bold text-center transition-colors"
               >
-                Play again
+                {playAgainLoading ? 'Saving...' : 'Play again'}
               </button>
             </div>
           </div>
