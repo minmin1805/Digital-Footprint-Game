@@ -2,7 +2,7 @@ import React from 'react'
 import person1 from '../assets/GamePage/FriendIcons/person1.png'
 import person2 from '../assets/GamePage/FriendIcons/person2.png'
 import person3 from '../assets/GamePage/FriendIcons/person3.png'
-import instructionLogo from '../assets/GamePage/InstructionLogo/InstructionLogo.png'
+import instructionLogo from '../assets/GamePage/InstructionLogo/instructionlogo.png'
 const messageAvatars = [
   { id: 1, image: person1 },
   { id: 2, image: person2 },
@@ -11,9 +11,9 @@ const messageAvatars = [
 
 export default function MessageBar() {
   return (
-    <aside className="flex flex-col items-center w-16 shrink-0 py-4 gap-4">
+    <aside className="flex flex-col items-center shrink-0 py-4 gap-4 ">
       {/* Messages vertical bar */}
-      <div className="flex flex-col items-center gap-7 bg-blue-400 rounded-xl border-l-4 border-pink-400 py-4">
+      <div className="flex flex-col items-center gap-7 bg-blue-400 rounded-xl border-l-4 border-pink-400 py-4 mb-20">
         <div className="flex flex-col gap-2">
           {messageAvatars.map(({ id, image }) => (
             <img
@@ -36,10 +36,13 @@ export default function MessageBar() {
       </div>
 
       {/* Rules button */}
-      <div className="flex flex-col items-center gap-1">
-      <img src={instructionLogo} alt="instruction logo" className="" style={{ width: '60px', height: '60px' }} />
-
-        <p className="text-[10px] font-medium text-gray-700 text-center leading-tight max-w-[64px]">
+      <div className="flex flex-col items-center gap-2 hover:cursor-pointer">
+        <img
+          src={instructionLogo}
+          alt="instruction logo"
+          className="w-25 h-25 object-contain shrink-0"
+        />
+        <p className="text-xs font-medium text-gray-700 text-center leading-tight max-w-[80px]">
           Pause and review game's rules
         </p>
       </div>

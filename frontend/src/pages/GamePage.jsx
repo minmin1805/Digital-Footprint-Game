@@ -142,8 +142,8 @@ function GamePage() {
       </div>
 
       {/* Main: MenuBar | Feed (scrollable) | MessageBar */}
-      <div className="flex items-stretch justify-between w-full flex-1 min-h-0 p-5 mt-2">
-        <div className="shrink-0">
+      <div className="flex items-stretch justify-between w-full flex-1 min-h-0 p-5 mt-2 mg">
+        <div className="shrink-0 mt-30">
           <MenuBar />
         </div>
 
@@ -151,7 +151,7 @@ function GamePage() {
           <FeedContainer />
         </div>
 
-        <div className="shrink-0">
+        <div className="shrink-0 mt-30">
           <MessageBar />
         </div>
       </div>
