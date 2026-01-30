@@ -163,17 +163,17 @@ function GamePage() {
         <FriendSection />
       </div>
 
-      {/* Main: MenuBar | Feed (scrollable) | MessageBar */}
-      <div className="flex items-stretch justify-between w-full flex-1 min-h-0 p-5 mt-2 mg">
-        <div className="shrink-0 mt-30">
+      {/* Main: MenuBar (left) | Feed (centered) | MessageBar (right) — grid keeps feed centered */}
+      <div className="grid grid-cols-[1fr_auto_1fr] items-stretch w-full flex-1 min-h-0 p-5 mt-2 gap-4">
+        <div className="flex justify-start items-start mt-8 min-w-0">
           <MenuBar />
         </div>
 
-        <div className="flex-1 min-w-0 flex justify-center items-stretch overflow-hidden">
+        <div className="flex justify-center items-stretch overflow-hidden min-w-0">
           <FeedContainer />
         </div>
 
-        <div className="shrink-0 mt-15">
+        <div className="flex justify-end items-start mt-8 min-w-0">
           <MessageBar />
         </div>
       </div>
