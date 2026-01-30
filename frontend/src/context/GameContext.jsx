@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useMemo } from 'react'
-import { createPlayer } from '../../services/playerService.js'
+import { createPlayer } from '../services/playerService'
 import postsData from '../data/posts.json'
 import postImageMap from '../data/postImages.js'
 

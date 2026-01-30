@@ -1,5 +1,7 @@
-import React, { useEffect, useCallback, useRef } from 'react'
+import React, { useEffect, useCallback, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useGame } from '../context/GameContext'
+import { updatePlayer } from '../services/playerService'
 import ProgressBar from '../components/ProgressBar'
 import FriendSection from '../components/FriendSection'
 import MenuBar from '../components/MenuBar'
@@ -11,9 +13,14 @@ import GameEndPopup from '../components/GameEndPopup'
 import CountdownOverlay from '../components/CountdownOverlay'
 
 function GamePage() {
+  const navigate = useNavigate()
+  const [playAgainLoading, setPlayAgainLoading] = useState(false)
+  const [playAgainError, setPlayAgainError] = useState(null)
   const {
+    playerId,
     score,
     foundItems,
+    gameStartTime,
     countdownActive,
     setCountdownActive,
     setCountdownValue,
@@ -31,6 +38,46 @@ function GamePage() {
     handleSafePopupContinue,
     handleCompletionClose,
   } = useGame()
+
+  const handlePlayAgain = useCallback(async () => {
+    if (!playerId) {
+      handleCompletionClose()
+      navigate('/')
+      return
+    }
+    setPlayAgainError(null)
+    setPlayAgainLoading(true)
+    try {
+      const playingTimeSeconds = gameStartTime
+        ? Math.round((Date.now() - gameStartTime) / 1000)
+        : 0
+      const categoriesFound = [...new Set(foundItems.map((f) => f.category))]
+
+      await updatePlayer(playerId, {
+        score,
+        totalPossible: 5,
+        categoriesFound,
+        playingTimeSeconds,
+        completedAt: new Date().toISOString(),
+      })
+      handleCompletionClose()
+      navigate('/')
+    } catch (err) {
+      console.error('updatePlayer error:', err)
+      setPlayAgainError('Could not save results. Playing again anyway.')
+      handleCompletionClose()
+      navigate('/')
+    } finally {
+      setPlayAgainLoading(false)
+    }
+  }, [
+    playerId,
+    score,
+    foundItems,
+    gameStartTime,
+    handleCompletionClose,
+    navigate,
+  ])
 
   const scrollDelayTimerRef = useRef(null)
 
@@ -124,7 +171,12 @@ function GamePage() {
         />
       )}
       {currentPopup?.type === 'completion' && (
-        <GameEndPopup onClose={handleCompletionClose} unsafePostsFound={score} />
+        <GameEndPopup
+          onPlayAgain={handlePlayAgain}
+          unsafePostsFound={score}
+          playAgainLoading={playAgainLoading}
+          playAgainError={playAgainError}
+        />
       )}
     </div>
   )
