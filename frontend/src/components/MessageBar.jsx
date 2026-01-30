@@ -1,4 +1,5 @@
 import React from 'react'
+import { useGame } from '../context/GameContext'
 import person1 from '../assets/GamePage/FriendIcons/person1.png'
 import person2 from '../assets/GamePage/FriendIcons/person2.png'
 import person3 from '../assets/GamePage/FriendIcons/person3.png'
@@ -10,6 +11,13 @@ const messageAvatars = [
 ]
 
 export default function MessageBar() {
+  const { setCurrentPopup, setIsPaused } = useGame()
+
+  const handleRulesClick = () => {
+    setIsPaused(true)
+    setCurrentPopup({ type: 'instruction', data: {} })
+  }
+
   return (
     <aside className="flex flex-col items-center shrink-0 py-4 gap-4 ">
       {/* Messages vertical bar */}
@@ -36,16 +44,21 @@ export default function MessageBar() {
       </div>
 
       {/* Rules button */}
-      <div className="flex flex-col items-center gap-2 hover:cursor-pointer">
+      <button
+        type="button"
+        onClick={handleRulesClick}
+        className="flex flex-col items-center gap-2 hover:cursor-pointer bg-transparent border-none p-0 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 rounded-lg"
+        aria-label="Pause and review game rules"
+      >
         <img
           src={instructionLogo}
           alt="instruction logo"
-          className="w-25 h-25 object-contain shrink-0"
+          className="w-16 h-16 object-contain shrink-0"
         />
         <p className="text-xs font-medium text-gray-700 text-center leading-tight max-w-[80px]">
-          Pause and review game's rules
+          Pause and review game&apos;s rules
         </p>
-      </div>
+      </button>
     </aside>
   )
 }

@@ -10,6 +10,7 @@ import FeedContainer from '../components/FeedContainer'
 import UnsafePopup from '../components/UnsafePopup'
 import SafePopup from '../components/SafePopup'
 import GameEndPopup from '../components/GameEndPopup'
+import InstructionPopup from '../components/InstructionPopup'
 import CountdownOverlay from '../components/CountdownOverlay'
 
 function GamePage() {
@@ -80,6 +81,22 @@ function GamePage() {
   ])
 
   const scrollDelayTimerRef = useRef(null)
+  const skipScrollDelayRef = useRef(false)
+
+  const handleInstructionContinue = useCallback(() => {
+    setCurrentPopup(null)
+    setCountdownValue(3)
+    setCountdownActive(true)
+    setScrollDelayActive(false)
+    setIsPaused(false)
+    skipScrollDelayRef.current = true
+  }, [
+    setCurrentPopup,
+    setCountdownValue,
+    setCountdownActive,
+    setScrollDelayActive,
+    setIsPaused,
+  ])
 
   useEffect(() => {
     setCountdownValue(3)
@@ -113,6 +130,11 @@ function GamePage() {
   const handleCountdownComplete = useCallback(() => {
     setCountdownActive(false)
     setGameStartTime(Date.now())
+    if (skipScrollDelayRef.current) {
+      skipScrollDelayRef.current = false
+      setScrollDelayActive(false)
+      return
+    }
     setScrollDelayActive(true)
     if (scrollDelayTimerRef.current) clearTimeout(scrollDelayTimerRef.current)
     scrollDelayTimerRef.current = setTimeout(() => {
@@ -169,6 +191,9 @@ function GamePage() {
           post={currentPopup.data.post}
           onClose={handleSafePopupContinue}
         />
+      )}
+      {currentPopup?.type === 'instruction' && (
+        <InstructionPopup onContinue={handleInstructionContinue} />
       )}
       {currentPopup?.type === 'completion' && (
         <GameEndPopup
