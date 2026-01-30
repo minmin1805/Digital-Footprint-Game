@@ -173,7 +173,7 @@ function GamePage() {
           <FeedContainer />
         </div>
 
-        <div className="shrink-0 mt-30">
+        <div className="shrink-0 mt-15">
           <MessageBar />
         </div>
       </div>
