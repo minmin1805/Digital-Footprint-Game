@@ -199,6 +199,7 @@ function GamePage() {
         <GameEndPopup
           onPlayAgain={handlePlayAgain}
           unsafePostsFound={score}
+          categoriesFound={categoriesFound}
           playAgainLoading={playAgainLoading}
           playAgainError={playAgainError}
         />

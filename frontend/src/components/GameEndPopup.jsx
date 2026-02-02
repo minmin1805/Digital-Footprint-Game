@@ -23,9 +23,12 @@ function downloadSafetyChecklist() {
 function GameEndPopup({
   onPlayAgain,
   unsafePostsFound = 0,
+  categoriesFound = 0,
   playAgainLoading = false,
   playAgainError = null,
 }) {
+  const foundAllFive = categoriesFound >= 5
+
   return (
     <div className="fixed flex items-center justify-center p-4 inset-0 z-50 pt-20 ">
       {/* Blurred backdrop */}
@@ -43,14 +46,23 @@ function GameEndPopup({
           aria-hidden
         />
         {/* Popup card */}
-        <div className="relative w-full rounded-2xl border-4 border-green-800 shadow-xl p-3 bg-green-800">
+        <div className=" relative w-full rounded-2xl border-4 border-green-800 shadow-xl p-3 bg-green-800">
           <div className="bg-amber-100 rounded-2xl flex flex-col items-center justify-center pt-16 overflow-hidden">
             <div className="flex justify-between items-center w-full">
-              <p className="max-w-2xl text-center text-2xl font-bold text-gray-900 ml-5 mt-2">
-                You found all 5 privacy risk categories and learned to protect
-                your digital footprint! You spotted {unsafePostsFound} unsafe
-                post{unsafePostsFound === 1 ? '' : 's'} in total.
-              </p>
+              {foundAllFive ? (
+                <p className="max-w-2xl text-center text-2xl font-bold text-gray-900 ml-5 mt-2">
+                  You found all 5 privacy risk categories and learned to protect
+                  your digital footprint! You spotted {unsafePostsFound} unsafe
+                  post{unsafePostsFound === 1 ? '' : 's'} in total.
+                </p>
+              ) : (
+                <p className="max-w-2xl text-center text-2xl font-bold text-gray-900 ml-5 mt-2">
+                  You found {categoriesFound}/5 privacy risk categories. You
+                  spotted {unsafePostsFound} unsafe post{unsafePostsFound === 1 ? '' : 's'}{' '}
+                  in total. Keep practicing — play again to find all 5 and become
+                  a Digital Footprint Detective!
+                </p>
+              )}
               <img
                 src={detectivekid}
                 alt=""
@@ -133,6 +145,7 @@ function GameEndPopup({
               </div>
             </div>
 
+{foundAllFive && (
             <p className="text-center text-xl text-gray-900 mt-7 px-10">
               You're now a{" "}
               <span className="font-bold text-green-500">
@@ -140,6 +153,7 @@ function GameEndPopup({
               </span>{" "}
               Use these skills every time you post online.
             </p>
+            )}
             <div className="mt-7 flex flex-col items-center gap-3 mb-7">
               <button
                 type="button"

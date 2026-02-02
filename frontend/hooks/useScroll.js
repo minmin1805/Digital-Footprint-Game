@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import { useGame } from '../src/context/GameContext.jsx'
 
 const SCROLL_SPEED_PX_PER_FRAME = 1
+const END_GAME_DELAY_MS = 4000
 
 /**
  * Phase B: Drives vertical auto-scroll of the feed.
@@ -15,12 +16,23 @@ const SCROLL_SPEED_PX_PER_FRAME = 1
 function useScroll(viewportRef, feedInnerRef) {
   const {
     setScrollPosition,
+    setGameComplete,
+    setCurrentPopup,
     isPaused,
     countdownActive,
     gameComplete,
     scrollDelayActive,
   } = useGame()
   const rafIdRef = useRef(null)
+  const hasReachedEndRef = useRef(false)
+  const endGameTimerRef = useRef(null)
+
+  useEffect(() => {
+    hasReachedEndRef.current = false
+    return () => {
+      if (endGameTimerRef.current) clearTimeout(endGameTimerRef.current)
+    }
+  }, [])
 
   useEffect(() => {
     const tick = () => {
@@ -45,6 +57,14 @@ function useScroll(viewportRef, feedInnerRef) {
       if (shouldScroll) {
         setScrollPosition((prev) => {
           const next = Math.min(prev + SCROLL_SPEED_PX_PER_FRAME, maxScroll)
+          if (next >= maxScroll && maxScroll > 0 && !hasReachedEndRef.current) {
+            hasReachedEndRef.current = true
+            endGameTimerRef.current = setTimeout(() => {
+              setGameComplete(true)
+              setCurrentPopup({ type: 'completion', data: {} })
+              endGameTimerRef.current = null
+            }, END_GAME_DELAY_MS)
+          }
           return next
         })
       }
@@ -58,6 +78,9 @@ function useScroll(viewportRef, feedInnerRef) {
       if (rafIdRef.current != null) {
         cancelAnimationFrame(rafIdRef.current)
       }
+      if (endGameTimerRef.current) {
+        clearTimeout(endGameTimerRef.current)
+      }
     }
   }, [
     viewportRef,
@@ -67,6 +90,8 @@ function useScroll(viewportRef, feedInnerRef) {
     isPaused,
     gameComplete,
     setScrollPosition,
+    setGameComplete,
+    setCurrentPopup,
   ])
 }
 
