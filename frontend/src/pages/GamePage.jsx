@@ -146,7 +146,7 @@ function GamePage() {
   const categoriesFound = new Set(foundItems.map((f) => f.category)).size
 
   return (
-    <div className="relative flex flex-col items-center h-screen w-full max-w-[1100px] mx-auto bg-blue-200 overflow-hidden">
+    <div className="relative flex flex-col items-center h-screen w-[55%] min-w-[600px] max-w-[800px] mx-auto bg-blue-200 overflow-hidden">
       {countdownActive && (
         <CountdownOverlay onComplete={handleCountdownComplete} />
       )}
