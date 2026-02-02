@@ -146,13 +146,13 @@ function GamePage() {
   const categoriesFound = new Set(foundItems.map((f) => f.category)).size
 
   return (
-    <div className="relative flex flex-col items-center h-screen w-[55%] min-w-[600px] max-w-[800px] mx-auto bg-blue-200 overflow-hidden">
+    <div className="relative flex flex-col items-center h-screen w-full max-w-[920px] mx-auto bg-blue-200 overflow-hidden">
       {countdownActive && (
         <CountdownOverlay onComplete={handleCountdownComplete} />
       )}
       {/* Banner + progress */}
-      <div className="flex flex-col items-center justify-center p-4 gap-4 bg-yellow-300 rounded-xl mt-3">
-        <h1 className="text-3xl font-bold text-center text-blue-500">Digital footprint detective</h1>
+      <div className="flex flex-col items-center justify-center p-3 gap-2 bg-yellow-300 rounded-xl mt-2">
+        <h1 className="text-2xl font-bold text-center text-blue-500">Digital footprint detective</h1>
         <ProgressBar currentStep={categoriesFound} totalSteps={5} label="categories" />
       </div>
 
@@ -163,9 +163,9 @@ function GamePage() {
         <FriendSection />
       </div>
 
-      {/* Main: MenuBar (left) | Feed (centered) | MessageBar (right) — grid keeps feed centered */}
-      <div className="grid grid-cols-[1fr_auto_1fr] items-stretch w-full flex-1 min-h-0 p-5 mt-2 gap-4">
-        <div className="flex justify-start items-start mt-8 min-w-0">
+      {/* Main: fixed sidebar widths + gap prevents sticking; identical local + remote */}
+      <div className="grid grid-cols-[100px_1fr_100px] items-stretch w-full flex-1 min-h-0 px-4 py-2 mt-2 gap-6">
+        <div className="flex justify-center items-start pt-8 overflow-hidden min-w-0">
           <MenuBar />
         </div>
 
@@ -173,7 +173,7 @@ function GamePage() {
           <FeedContainer />
         </div>
 
-        <div className="flex justify-end items-start min-w-0">
+        <div className="flex justify-center items-start pt-8 overflow-hidden min-w-0">
           <MessageBar />
         </div>
       </div>

@@ -25,7 +25,7 @@ export default function MessageBar() {
   }
 
   return (
-    <aside className="flex flex-col items-center shrink-0 py-4 gap-6">
+    <aside className="flex flex-col items-center shrink-0 py-4 gap-6 w-[100px] overflow-hidden">
       {/* Category found indicator */}
       <div className="flex flex-col gap-4">
         <p className="text-lg font-bold text-gray-700 text-center">Categories found</p>
@@ -40,7 +40,7 @@ export default function MessageBar() {
               <img
                 src={image}
                 alt={title}
-                className={`w-25 h-17 object-contain shrink-0 transition-all duration-300 ${
+                className={`w-12 h-12 object-contain shrink-0 transition-all duration-300 ${
                   isFound ? 'opacity-100' : 'opacity-40 grayscale'
                 }`}
               />
@@ -62,9 +62,9 @@ export default function MessageBar() {
         <img
           src={instructionLogo}
           alt=""
-          className="w-25 h-25 object-contain shrink-0"
+          className="w-12 h-12 object-contain shrink-0"
         />
-        <p className="text-[] font-medium text-gray-700 text-center leading-tight max-w-[80px]">
+        <p className="text-xs font-medium text-gray-700 text-center leading-tight max-w-[80px]">
           Pause and review game&apos;s rules
         </p>
       </button>

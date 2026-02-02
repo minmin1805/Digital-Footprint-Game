@@ -1,7 +1,15 @@
 @import "tailwindcss";
 
-/* Base styles for consistent layout across local and production */
-html,
+/* Base styles - ensures identical rendering on local and remote */
+html {
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  width: 100%;
+  min-height: 100%;
+  box-sizing: border-box;
+}
 body,
 #root {
   margin: 0;
@@ -9,6 +17,7 @@ body,
   width: 100%;
   min-height: 100%;
   box-sizing: border-box;
+  overflow-x: hidden;
 }
 *,
 *::before,

@@ -22,11 +22,11 @@ function FeedContainer() {
   return (
     <div
       ref={viewportRef}
-      className="w-full max-w-[600px] h-full min-h-0 overflow-hidden flex justify-center items-start"
+      className="w-full min-w-0 max-w-[480px] h-full min-h-0 overflow-hidden flex justify-center items-start mx-auto"
     >
       <div
         ref={feedInnerRef}
-        className="flex flex-col items-center gap-6 py-4 w-full max-w-[600px] shrink-0"
+        className="flex flex-col items-center gap-6 py-4 w-full max-w-[480px] shrink-0"
         style={{ transform: `translateY(-${scrollPosition}px)` }}
       >
         {posts.map((post) => (
