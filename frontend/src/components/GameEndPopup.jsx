@@ -31,21 +31,17 @@ function GameEndPopup({
 
   return (
     <div className="fixed flex items-center justify-center p-2 sm:p-4 pt-20 sm:pt-24 inset-0 z-50 overflow-y-auto overflow-x-visible">
-      {/* Blurred backdrop */}
       <div
         className="absolute inset-0 bg-black/30 backdrop-blur-sm"
         aria-hidden
       />
-      {/* Wrapper — overflow-visible so banner isn't clipped */}
       <div className="relative w-full max-w-xl my-auto overflow-visible">
-        {/* Banner: full image visible, no cropping */}
         <img
           src={banner}
           alt=""
           className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 z-10 min-w-[150%] max-h-35 object-contain object-center pointer-events-none"
           aria-hidden
         />
-        {/* Popup card — scrollable if content overflows */}
         <div className="relative w-full rounded-2xl border-4 border-green-800 shadow-xl p-3 bg-green-800 max-h-[85vh] overflow-y-auto">
           <div className="bg-amber-100 rounded-2xl flex flex-col items-center justify-center pt-14 overflow-hidden">
             <div className="flex justify-between items-center w-full gap-2">

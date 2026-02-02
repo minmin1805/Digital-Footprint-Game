@@ -56,7 +56,7 @@ export default function MessageBar() {
       <button
         type="button"
         onClick={handleRulesClick}
-        className="flex flex-col items-center gap-2 hover:cursor-pointer bg-transparent border-none p-0 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 rounded-lg mt-4 mt-10"
+        className="flex flex-col items-center gap-2 hover:cursor-pointer bg-transparent border-none p-0 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 rounded-lg mt-4"
         aria-label="Pause and review game rules"
       >
         <img

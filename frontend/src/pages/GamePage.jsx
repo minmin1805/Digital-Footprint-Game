@@ -173,7 +173,7 @@ function GamePage() {
           <FeedContainer />
         </div>
 
-        <div className="flex justify-end items-start mt-8 min-w-0">
+        <div className="flex justify-end items-start min-w-0">
           <MessageBar />
         </div>
       </div>

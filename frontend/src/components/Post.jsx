@@ -5,7 +5,7 @@ import {
   isPointInZone,
 } from '../lib/clickDetection'
 
-const CAPTION_DANGER_IDS = ['post5', 'post7']
+const CAPTION_DANGER_IDS = ['post6', 'post9']
 
 function Post({ post, onCorrectClick, onIncorrectClick }) {
   const { username, imageUrl, likes, comments, caption, tags = [] } = post
