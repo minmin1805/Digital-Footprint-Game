@@ -1,1 +1,17 @@
 @import "tailwindcss";
+
+/* Base styles for consistent layout across local and production */
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+  box-sizing: border-box;
+}
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
