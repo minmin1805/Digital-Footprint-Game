@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useMemo, useCallback, useRef, useEffect } from 'react'
 import { createPlayer } from '../services/playerService'
+import { playBuzzerSound } from '../lib/sounds.js'
 import postsData from '../data/posts.json'
 import postImageMap from '../data/postImages.js'
 
@@ -23,6 +24,8 @@ export function GameProvider({ children }) {
   const [countdownActive, setCountdownActive] = useState(true) // start with countdown on
   const [countdownValue, setCountdownValue] = useState(3)
   const [safePostClickCounts, setSafePostClickCounts] = useState({}) // { postId: number }
+  const [likedSafePostIds, setLikedSafePostIds] = useState(new Set()) // postIds correctly liked via heart
+  const [shakingHeartPostId, setShakingHeartPostId] = useState(null) // postId for wrong heart click (unsafe)
   const [gameStartTime, setGameStartTime] = useState(null) // for playingTimeSeconds later
   const [scrollDelayActive, setScrollDelayActive] = useState(false) // true = hold feed still for 1.5s after countdown
 
@@ -133,6 +136,22 @@ export function GameProvider({ children }) {
     }
   }
 
+  const handleHeartClick = useCallback((post, ev) => {
+    ev.stopPropagation()
+    if (post.type === 'safe') {
+      setLikedSafePostIds((prev) => new Set([...prev, post.id]))
+      setIsPaused(true)
+      stopPostTimer()
+      setTimeout(() => {
+        setCurrentPopup({ type: 'safe', data: { post } })
+      }, 1000)
+    } else {
+      setShakingHeartPostId(post.id)
+      playBuzzerSound()
+      setTimeout(() => setShakingHeartPostId(null), 500)
+    }
+  }, [stopPostTimer])
+
   const handleUnsafePopupContinue = () => {
     const categories = new Set(foundItems.map((f) => f.category))
     if (categories.size >= 5) {
@@ -184,6 +203,10 @@ export function GameProvider({ children }) {
     setCountdownValue,
     safePostClickCounts,
     setSafePostClickCounts,
+    likedSafePostIds,
+    setLikedSafePostIds,
+    shakingHeartPostId,
+    setShakingHeartPostId,
     gameStartTime,
     setGameStartTime,
     scrollDelayActive,
@@ -200,6 +223,7 @@ export function GameProvider({ children }) {
     posts,
     handleCorrectClick,
     handleIncorrectClick,
+    handleHeartClick,
     handleUnsafePopupContinue,
     handleSafePopupContinue,
     handleCompletionClose,
