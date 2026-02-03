@@ -33,6 +33,8 @@ function GamePage() {
     setIsPaused,
     setGameComplete,
     setSafePostClickCounts,
+    setLikedSafePostIds,
+    setShakingHeartPostId,
     setScrollDelayActive,
     setScrollPhase,
     setCurrentPostIndex,
@@ -110,6 +112,8 @@ function GamePage() {
     setScrollDelayActive(false)
     setScore(0)
     setFoundItems([])
+    setLikedSafePostIds(new Set())
+    setShakingHeartPostId(null)
     setCurrentPopup(null)
     setIsPaused(false)
     setGameComplete(false)
@@ -130,6 +134,8 @@ function GamePage() {
     setIsPaused,
     setGameComplete,
     setSafePostClickCounts,
+    setLikedSafePostIds,
+    setShakingHeartPostId,
     setScrollDelayActive,
     setCurrentPostIndex,
     setScrollPhase,

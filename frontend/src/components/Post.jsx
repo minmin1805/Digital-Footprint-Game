@@ -4,10 +4,12 @@ import {
   toOriginalCoords,
   isPointInZone,
 } from '../lib/clickDetection'
+import { useGame } from '../context/GameContext'
 
 const CAPTION_DANGER_IDS = ['post6', 'post9']
 
 function Post({ post, onCorrectClick, onIncorrectClick }) {
+  const { handleHeartClick, likedSafePostIds, shakingHeartPostId } = useGame()
   const { username, imageUrl, likes, comments, caption, tags = [] } = post
   const tagString = Array.isArray(tags) ? tags.join(' ') : ''
   const zones = post.dangerZones ?? []
@@ -59,6 +61,8 @@ function Post({ post, onCorrectClick, onIncorrectClick }) {
   }, [post, onIncorrectClick])
 
   const isSafe = post.type === 'safe'
+  const isLiked = likedSafePostIds?.has(post.id)
+  const isShaking = shakingHeartPostId === post.id
 
   return (
     <article
@@ -99,8 +103,18 @@ function Post({ post, onCorrectClick, onIncorrectClick }) {
       <div className="px-4 py-3 space-y-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <button type="button" className="flex items-center gap-1.5 p-1 -m-1 rounded-full hover:bg-gray-100" aria-label="Like">
-              <svg className="w-8 h-8 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <button
+              type="button"
+              onClick={(ev) => handleHeartClick?.(post, ev)}
+              className={`flex items-center gap-1.5 p-1 -m-1 rounded-full hover:bg-gray-100 cursor-pointer ${isShaking ? 'animate-shake-wrong' : ''}`}
+              aria-label="Like - I think this post is safe"
+            >
+              <svg
+                className={`w-8 h-8 transition-colors ${isLiked ? 'text-red-500 fill-red-500' : 'text-gray-800'}`}
+                fill={isLiked ? 'currentColor' : 'none'}
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
               </svg>
               {typeof likes === 'number' && (
