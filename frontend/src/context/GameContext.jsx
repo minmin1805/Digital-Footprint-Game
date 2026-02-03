@@ -1,15 +1,12 @@
-import { createContext, useContext, useState, useMemo } from 'react'
+import { createContext, useContext, useState, useMemo, useCallback, useRef, useEffect } from 'react'
 import { createPlayer } from '../services/playerService'
 import postsData from '../data/posts.json'
 import postImageMap from '../data/postImages.js'
 
 const GameContext = createContext(null)
 
-/**
- * Step 4.1 + 4.3: GameContext holds both "who is playing" (playerId, etc.)
- * and "what’s happening in the game" (score, posts, popups, pause, etc.).
- * Posts are loaded once from posts.json and merged with image URLs.
- */
+const POST_VIEW_TIMER_SECONDS = 15
+
 export function GameProvider({ children }) {
   // --- Already had: current player (from Welcome) ---
   const [playerId, setPlayerId] = useState(null)
@@ -17,7 +14,6 @@ export function GameProvider({ children }) {
   const [playerName, setPlayerName] = useState('')
   const [playerError, setPlayerError] = useState(null)
 
-  // --- Step 4.1: Gameplay state ---
   const [score, setScore] = useState(0)
   const [foundItems, setFoundItems] = useState([]) // { postId, zoneId, category }[]
   const [currentPopup, setCurrentPopup] = useState(null) // { type: 'unsafe'|'safe'|'completion', data }
@@ -29,6 +25,18 @@ export function GameProvider({ children }) {
   const [safePostClickCounts, setSafePostClickCounts] = useState({}) // { postId: number }
   const [gameStartTime, setGameStartTime] = useState(null) // for playingTimeSeconds later
   const [scrollDelayActive, setScrollDelayActive] = useState(false) // true = hold feed still for 1.5s after countdown
+
+  // --- Post-by-post flow ---
+  // Note: stop post timer when any popup opens (incl. instruction) - via useEffect below
+  const [currentPostIndex, setCurrentPostIndex] = useState(0)
+  const currentPostIndexRef = useRef(0)
+  const [scrollPhase, setScrollPhase] = useState('holding') // 'scrolling' | 'holding'
+  const [postTimerSeconds, setPostTimerSeconds] = useState(POST_VIEW_TIMER_SECONDS)
+  const postTimerRef = useRef(null)
+
+  useEffect(() => {
+    currentPostIndexRef.current = currentPostIndex
+  }, [currentPostIndex])
 
   // --- Step 4.3: Load posts and add imageUrl from postImageMap ---
   const posts = useMemo(() => {
@@ -56,7 +64,50 @@ export function GameProvider({ children }) {
     }
   }
 
-  // --- Step 4.1: Placeholder handlers (real logic comes in Phase 7/8) ---
+
+  const stopPostTimer = useCallback(() => {
+    if (postTimerRef.current) {
+      clearInterval(postTimerRef.current)
+      postTimerRef.current = null
+    }
+  }, [])
+
+  const advanceToNextPost = useCallback(() => {
+    stopPostTimer()
+    const prev = currentPostIndexRef.current
+    const next = prev + 1
+    if (next >= posts.length) {
+      setGameComplete(true)
+      setTimeout(() => {
+        setCurrentPopup({ type: 'completion', data: {} })
+      }, 2000)
+      return
+    }
+    currentPostIndexRef.current = next
+    setCurrentPostIndex(next)
+    setScrollPhase('scrolling')
+    setPostTimerSeconds(POST_VIEW_TIMER_SECONDS)
+  }, [posts.length, stopPostTimer])
+
+  const startPostTimer = useCallback(() => {
+    stopPostTimer()
+    setPostTimerSeconds(POST_VIEW_TIMER_SECONDS)
+    postTimerRef.current = setInterval(() => {
+      setPostTimerSeconds((s) => {
+        if (s <= 1) {
+          stopPostTimer()
+          advanceToNextPost()
+          return 0
+        }
+        return s - 1
+      })
+    }, 1000)
+  }, [advanceToNextPost, stopPostTimer])
+
+  const onScrollReachedTarget = useCallback(() => {
+    setScrollPhase('holding')
+    startPostTimer()
+  }, [startPostTimer])
 
   const handleCorrectClick = (post, zone) => {
     if (foundItems.some((f) => f.zoneId === zone.id)) return // already found
@@ -64,6 +115,7 @@ export function GameProvider({ children }) {
     const updatedFound = [...foundItems, newItem]
     const categories = new Set(updatedFound.map((f) => f.category))
     setIsPaused(true)
+    stopPostTimer()
     setFoundItems((prev) => [...prev, newItem])
     setScore((s) => s + 1)
     setCurrentPopup({ type: 'unsafe', data: { post, zone } })
@@ -76,6 +128,7 @@ export function GameProvider({ children }) {
     setSafePostClickCounts(next)
     if (next[post.id] > 2) {
       setIsPaused(true)
+      stopPostTimer()
       setCurrentPopup({ type: 'safe', data: { post } })
     }
   }
@@ -87,13 +140,19 @@ export function GameProvider({ children }) {
     } else {
       setCurrentPopup(null)
       setIsPaused(false)
+      advanceToNextPost()
     }
   }
 
   const handleSafePopupContinue = () => {
     setCurrentPopup(null)
     setIsPaused(false)
+    advanceToNextPost()
   }
+
+  useEffect(() => {
+    if (currentPopup) stopPostTimer()
+  }, [currentPopup, stopPostTimer])
 
   const handleCompletionClose = () => {
     setCurrentPopup(null)
@@ -129,6 +188,15 @@ export function GameProvider({ children }) {
     setGameStartTime,
     scrollDelayActive,
     setScrollDelayActive,
+    currentPostIndex,
+    setCurrentPostIndex,
+    scrollPhase,
+    setScrollPhase,
+    postTimerSeconds,
+    onScrollReachedTarget,
+    startPostTimer,
+    stopPostTimer,
+    POST_VIEW_TIMER_SECONDS,
     posts,
     handleCorrectClick,
     handleIncorrectClick,
