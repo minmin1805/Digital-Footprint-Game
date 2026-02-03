@@ -34,7 +34,11 @@ function GamePage() {
     setGameComplete,
     setSafePostClickCounts,
     setScrollDelayActive,
+    setScrollPhase,
+    setCurrentPostIndex,
     currentPopup,
+    postTimerSeconds,
+    startPostTimer,
     handleUnsafePopupContinue,
     handleSafePopupContinue,
     handleCompletionClose,
@@ -110,6 +114,8 @@ function GamePage() {
     setIsPaused(false)
     setGameComplete(false)
     setSafePostClickCounts({})
+    setCurrentPostIndex(0)
+    setScrollPhase('scrolling')
     return () => {
       if (scrollDelayTimerRef.current) clearTimeout(scrollDelayTimerRef.current)
     }
@@ -125,6 +131,8 @@ function GamePage() {
     setGameComplete,
     setSafePostClickCounts,
     setScrollDelayActive,
+    setCurrentPostIndex,
+    setScrollPhase,
   ])
 
   const handleCountdownComplete = useCallback(() => {
@@ -133,15 +141,18 @@ function GamePage() {
     if (skipScrollDelayRef.current) {
       skipScrollDelayRef.current = false
       setScrollDelayActive(false)
+      setScrollPhase('holding')
+      startPostTimer()
       return
     }
+    setScrollPhase('scrolling')
     setScrollDelayActive(true)
     if (scrollDelayTimerRef.current) clearTimeout(scrollDelayTimerRef.current)
     scrollDelayTimerRef.current = setTimeout(() => {
       setScrollDelayActive(false)
       scrollDelayTimerRef.current = null
     }, 1500)
-  }, [setCountdownActive, setGameStartTime, setScrollDelayActive])
+  }, [setCountdownActive, setGameStartTime, setScrollDelayActive, setScrollPhase, startPostTimer])
 
   const categoriesFound = new Set(foundItems.map((f) => f.category)).size
 
@@ -150,10 +161,18 @@ function GamePage() {
       {countdownActive && (
         <CountdownOverlay onComplete={handleCountdownComplete} />
       )}
-      {/* Banner + progress */}
+      {/* Banner + progress + post timer */}
       <div className="flex flex-col items-center justify-center p-3 gap-2 bg-yellow-300 rounded-xl mt-2">
         <h1 className="text-2xl font-bold text-center text-blue-500">Digital footprint detective</h1>
-        <ProgressBar currentStep={categoriesFound} totalSteps={5} label="categories" />
+        <div className="flex items-center gap-6">
+          <ProgressBar currentStep={categoriesFound} totalSteps={5} label="categories" />
+          {!countdownActive && !currentPopup && (
+            <div className="flex items-center gap-2 text-gray-800 font-bold">
+              <span className="text-lg">⏱</span>
+              <span className="text-xl tabular-nums">{postTimerSeconds}s</span>
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="w-full h-px bg-gray-900 my-4" />

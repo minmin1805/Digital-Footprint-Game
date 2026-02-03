@@ -26,16 +26,17 @@ function FeedContainer() {
     >
       <div
         ref={feedInnerRef}
-        className="flex flex-col items-center gap-6 py-4 w-full max-w-[480px] shrink-0"
+        className="flex flex-col items-center gap-16 py-4 w-full max-w-[480px] shrink-0"
         style={{ transform: `translateY(-${scrollPosition}px)` }}
       >
         {posts.map((post) => (
-          <Post
-            key={post.id}
-            post={post}
-            onCorrectClick={handleCorrectClick}
-            onIncorrectClick={handleIncorrectClick}
-          />
+          <div key={post.id} className="w-full flex justify-center shrink-0">
+            <Post
+              post={post}
+              onCorrectClick={handleCorrectClick}
+              onIncorrectClick={handleIncorrectClick}
+            />
+          </div>
         ))}
       </div>
     </div>
