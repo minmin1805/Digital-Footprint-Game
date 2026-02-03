@@ -105,6 +105,7 @@ function Post({ post, onCorrectClick, onIncorrectClick }) {
           <div className="flex items-center gap-3">
             <button
               type="button"
+              data-skip-global-click-sound
               onClick={(ev) => handleHeartClick?.(post, ev)}
               className={`flex items-center gap-1.5 p-1 -m-1 rounded-full hover:bg-gray-100 cursor-pointer ${isShaking ? 'animate-shake-wrong' : ''}`}
               aria-label="Like - I think this post is safe"
@@ -118,7 +119,7 @@ function Post({ post, onCorrectClick, onIncorrectClick }) {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
               </svg>
               {typeof likes === 'number' && (
-                <span className="text-lg font-medium text-gray-700">{likes}</span>
+                <span className="text-lg font-medium text-gray-700">{likes + (isLiked ? 1 : 0)}</span>
               )}
             </button>
             <button type="button" className="flex items-center gap-1.5 p-1 -m-1 rounded-full hover:bg-gray-100" aria-label="Comment">

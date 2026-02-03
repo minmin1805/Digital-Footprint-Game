@@ -1,4 +1,7 @@
-
+/**
+ * Plays buzzer sound for wrong heart click (unsafe post).
+ * Uses Web Audio API - no MP3 file needed.
+ */
 export function playBuzzerSound() {
   try {
     const audioContext = new (window.AudioContext || window.webkitAudioContext)()

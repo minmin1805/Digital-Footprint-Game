@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useMemo, useCallback, useRef, useEffect } from 'react'
 import { createPlayer } from '../services/playerService'
 import { playBuzzerSound } from '../lib/sounds.js'
+import { useSounds } from './SoundContext'
 import postsData from '../data/posts.json'
 import postImageMap from '../data/postImages.js'
 
@@ -9,6 +10,7 @@ const GameContext = createContext(null)
 const POST_VIEW_TIMER_SECONDS = 15
 
 export function GameProvider({ children }) {
+  const { playButtonClickSound } = useSounds()
   // --- Already had: current player (from Welcome) ---
   const [playerId, setPlayerId] = useState(null)
   const [sessionId, setSessionId] = useState(null)
@@ -139,6 +141,7 @@ export function GameProvider({ children }) {
   const handleHeartClick = useCallback((post, ev) => {
     ev.stopPropagation()
     if (post.type === 'safe') {
+      playButtonClickSound()
       setLikedSafePostIds((prev) => new Set([...prev, post.id]))
       setIsPaused(true)
       stopPostTimer()
