@@ -13,6 +13,15 @@ export async function captureElementAsPdf(element) {
     useCORS: true,
     logging: false,
     backgroundColor: 'rgb(250, 248, 240)',
+    onclone: (_clonedDoc, clonedNode) => {
+      // Fix html2canvas text spacing
+      const root = clonedNode.querySelector('.pdf-checklist-root') || clonedNode
+      if (root?.style) {
+        root.style.letterSpacing = '0.03em'
+        root.style.fontFamily = 'Helvetica, Arial, sans-serif'
+        root.style.wordSpacing = '0.05em'
+      }
+    },
   })
   const pdf = new jsPDF({ unit: 'mm', format: 'a4' })
   const pdfW = pdf.internal.pageSize.getWidth()
