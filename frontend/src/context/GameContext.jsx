@@ -10,7 +10,7 @@ const GameContext = createContext(null)
 const POST_VIEW_TIMER_SECONDS = 15
 
 export function GameProvider({ children }) {
-  const { playButtonClickSound } = useSounds()
+  const { playLikeSound } = useSounds()
   // --- Already had: current player (from Welcome) ---
   const [playerId, setPlayerId] = useState(null)
   const [sessionId, setSessionId] = useState(null)
@@ -187,7 +187,7 @@ export function GameProvider({ children }) {
   const handleHeartClick = useCallback((post, ev) => {
     ev.stopPropagation()
     if (post.type === 'safe') {
-      playButtonClickSound()
+      playLikeSound()
       setLikedSafePostIds((prev) => new Set([...prev, post.id]))
       setIsPaused(true)
       stopPostTimer()
@@ -199,7 +199,7 @@ export function GameProvider({ children }) {
       playBuzzerSound()
       setTimeout(() => setShakingHeartPostId(null), 500)
     }
-  }, [stopPostTimer])
+  }, [stopPostTimer, playLikeSound])
 
   const handleUnsafePopupContinue = () => {
     const categories = new Set(foundItems.map((f) => f.category))
