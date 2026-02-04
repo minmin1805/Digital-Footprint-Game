@@ -1,13 +1,16 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useGame } from '../src/context/GameContext.jsx'
+import { useMusic } from '../src/context/MusicContext.jsx'
 
 const useWelcomePage = () => {
     const navigate = useNavigate()
     const [username, setUsername] = useState('')
     const { createPlayerAndGo, playerError, setPlayerError } = useGame()
+    const { startMusic } = useMusic()
 
     const handleStart = async () => {
+        startMusic()
         await createPlayerAndGo(username, navigate)
     }
 

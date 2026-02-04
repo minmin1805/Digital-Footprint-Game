@@ -19,13 +19,20 @@ export function MusicProvider({ children }) {
     }
   }, [isPlaying])
 
+  const startMusic = useCallback(() => {
+    const audio = audioRef.current
+    if (!audio || isPlaying) return
+    audio.volume = 0.4
+    audio.play().then(() => setIsPlaying(true)).catch(() => {})
+  }, [isPlaying])
+
   useEffect(() => {
     return () => {
       if (audioRef.current) audioRef.current.pause()
     }
   }, [])
 
-  const value = { isPlaying, toggleMusic }
+  const value = { isPlaying, toggleMusic, startMusic }
 
   return (
     <MusicContext.Provider value={value}>
