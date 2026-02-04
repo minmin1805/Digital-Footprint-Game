@@ -157,25 +157,32 @@ export function GameProvider({ children }) {
   }
 
   const incorrectZoneTooltipTimerRef = useRef(null)
-  const handleIncorrectZoneClick = useCallback((ev) => {
+  const showTooltip = useCallback((ev, message) => {
     if (incorrectZoneTooltipTimerRef.current) clearTimeout(incorrectZoneTooltipTimerRef.current)
-    setIncorrectZoneTooltip({ x: ev.clientX, y: ev.clientY })
+    setIncorrectZoneTooltip({ x: ev.clientX, y: ev.clientY, message })
     incorrectZoneTooltipTimerRef.current = setTimeout(() => {
       setIncorrectZoneTooltip(null)
       incorrectZoneTooltipTimerRef.current = null
     }, 2000)
   }, [])
 
-  const handleIncorrectClick = (post) => {
+  const handleIncorrectZoneClick = useCallback((ev) => {
+    showTooltip(ev, "That area doesn't contain a privacy risk")
+  }, [showTooltip])
+
+  const handleSafePostImageClick = useCallback((post, ev) => {
     if (post.type !== 'safe') return
-    const next = { ...safePostClickCounts, [post.id]: (safePostClickCounts[post.id] ?? 0) + 1 }
-    setSafePostClickCounts(next)
-    if (next[post.id] > 2) {
-      setIsPaused(true)
-      stopPostTimer()
-      setCurrentPopup({ type: 'safe', data: { post } })
-    }
-  }
+    showTooltip(ev, "This post is safe. Use the like button to show you've checked it!")
+    setSafePostClickCounts((prev) => {
+      const count = (prev[post.id] ?? 0) + 1
+      if (count >= 3) {
+        setIsPaused(true)
+        stopPostTimer()
+        setCurrentPopup({ type: 'safe', data: { post } })
+      }
+      return { ...prev, [post.id]: count }
+    })
+  }, [showTooltip, stopPostTimer])
 
   const handleHeartClick = useCallback((post, ev) => {
     ev.stopPropagation()
@@ -267,7 +274,7 @@ export function GameProvider({ children }) {
     POST_VIEW_TIMER_SECONDS,
     posts,
     handleCorrectClick,
-    handleIncorrectClick,
+    handleSafePostImageClick,
     handleHeartClick,
     handleUnsafePopupContinue,
     handleSafePopupContinue,

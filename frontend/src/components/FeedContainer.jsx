@@ -5,7 +5,7 @@ import Post from './Post'
 
 
 function FeedContainer() {
-  const { posts, scrollPosition, handleCorrectClick, handleIncorrectClick } = useGame()
+  const { posts, scrollPosition, handleCorrectClick } = useGame()
   const viewportRef = useRef(null)
   const feedInnerRef = useRef(null)
 
@@ -34,7 +34,6 @@ function FeedContainer() {
             <Post
               post={post}
               onCorrectClick={handleCorrectClick}
-              onIncorrectClick={handleIncorrectClick}
             />
           </div>
         ))}

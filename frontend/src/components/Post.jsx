@@ -8,8 +8,8 @@ import { useGame } from '../context/GameContext'
 
 const CAPTION_DANGER_IDS = ['post6', 'post9']
 
-function Post({ post, onCorrectClick, onIncorrectClick }) {
-  const { handleHeartClick, likedSafePostIds, shakingHeartPostId, handleIncorrectZoneClick } = useGame()
+function Post({ post, onCorrectClick }) {
+  const { handleHeartClick, likedSafePostIds, shakingHeartPostId, handleIncorrectZoneClick, handleSafePostImageClick } = useGame()
   const { username, imageUrl, likes, comments, caption, tags = [] } = post
   const tagString = Array.isArray(tags) ? tags.join(' ') : ''
   const zones = post.dangerZones ?? []
@@ -18,7 +18,7 @@ function Post({ post, onCorrectClick, onIncorrectClick }) {
 
   const handleImageClick = useCallback(
     (ev) => {
-      if (!onCorrectClick || !onIncorrectClick) return
+      if (!onCorrectClick) return
       if (isCaptionDanger) {
         handleIncorrectZoneClick?.(ev)
         return
@@ -49,22 +49,14 @@ function Post({ post, onCorrectClick, onIncorrectClick }) {
           return
         }
       }
-
-      if (post.type === 'safe') {
-        onIncorrectClick(post)
-      }
     },
-    [post, zones, orig, isCaptionDanger, onCorrectClick, onIncorrectClick, handleIncorrectZoneClick]
+    [post, zones, orig, isCaptionDanger, onCorrectClick, handleIncorrectZoneClick]
   )
 
   const handleCaptionClick = useCallback(() => {
     if (!onCorrectClick || !zones.length || !isCaptionDanger) return
     onCorrectClick(post, zones[0])
   }, [post, zones, isCaptionDanger, onCorrectClick])
-
-  const handleSafePostClick = useCallback(() => {
-    if (onIncorrectClick) onIncorrectClick(post)
-  }, [post, onIncorrectClick])
 
   const handleCaptionDangerPostClick = useCallback(
     (ev) => {
@@ -82,7 +74,6 @@ function Post({ post, onCorrectClick, onIncorrectClick }) {
   return (
     <article
       className={`w-full max-w-[600px] shrink-0 bg-white rounded-2xl border border-gray-800 overflow-hidden shadow-sm ${isSafe || isCaptionDanger ? 'cursor-pointer' : ''}`}
-      {...(isSafe && { onClick: handleSafePostClick })}
       {...(isCaptionDanger && { onClick: handleCaptionDangerPostClick })}
     >
       {/* Header: avatar + username */}
@@ -95,10 +86,10 @@ function Post({ post, onCorrectClick, onIncorrectClick }) {
       </div>
       <div className='w-full h-[1px] bg-gray-900 my-2'></div>
 
-      {/* Main image — clickable for zone hit-test (danger posts only); safe posts use whole-post click */}
+      {/* Main image — clickable for zone hit-test (danger posts); safe posts show warning on image click */}
       <div
-        className={`relative w-full aspect-square bg-gray-100 ${!isSafe ? 'cursor-pointer' : ''}`}
-        {...(!isSafe && { onClick: handleImageClick })}
+        className="relative w-full aspect-square bg-gray-100 cursor-pointer"
+        onClick={isSafe ? (ev) => handleSafePostImageClick?.(post, ev) : handleImageClick}
       >
         {imageUrl ? (
           <img

@@ -234,10 +234,10 @@ function GamePage() {
         />
       )}
 
-      {/* Incorrect zone feedback - tooltip near cursor for 2 seconds */}
+      {/* Feedback tooltip - near cursor for 2 seconds (unsafe: wrong zone; safe: use like button) */}
       {incorrectZoneTooltip && (
         <div
-          className="fixed z-50 pointer-events-none px-3 py-2 rounded-lg bg-gray-900 text-white text-sm font-medium shadow-lg whitespace-nowrap"
+          className="fixed z-50 pointer-events-none px-3 py-2 rounded-lg bg-gray-900 text-white text-sm font-medium shadow-lg max-w-[280px]"
           style={{
             left: incorrectZoneTooltip.x + 12,
             top: incorrectZoneTooltip.y + 12,
@@ -245,7 +245,7 @@ function GamePage() {
           role="status"
           aria-live="polite"
         >
-          That area doesn&apos;t contain a privacy risk
+          {incorrectZoneTooltip.message ?? "That area doesn't contain a privacy risk"}
         </div>
       )}
     </div>
