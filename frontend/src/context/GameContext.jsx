@@ -40,9 +40,13 @@ export function GameProvider({ children }) {
   const [postTimerSeconds, setPostTimerSeconds] = useState(POST_VIEW_TIMER_SECONDS)
   const postTimerRef = useRef(null)
 
+  const foundItemsRef = useRef([])
   useEffect(() => {
     currentPostIndexRef.current = currentPostIndex
   }, [currentPostIndex])
+  useEffect(() => {
+    foundItemsRef.current = foundItems
+  }, [foundItems])
 
   // --- Step 4.3: Load posts and add imageUrl from postImageMap ---
   const posts = useMemo(() => {
@@ -95,6 +99,30 @@ export function GameProvider({ children }) {
     setPostTimerSeconds(POST_VIEW_TIMER_SECONDS)
   }, [posts.length, stopPostTimer])
 
+  const handleTimeExpired = useCallback(() => {
+    stopPostTimer()
+    const idx = currentPostIndexRef.current
+    const post = posts[idx]
+    if (!post) {
+      advanceToNextPost()
+      return
+    }
+    if (post.type === 'danger') {
+      const foundThisPost = foundItemsRef.current.some((f) => f.postId === post.id)
+      if (!foundThisPost && post.dangerZones?.length > 0) {
+        setIsPaused(true)
+        setCurrentPopup({ type: 'unsafe', data: { post, zone: post.dangerZones[0] } })
+        return
+      }
+    }
+    if (post.type === 'safe') {
+      setIsPaused(true)
+      setCurrentPopup({ type: 'safe', data: { post } })
+      return
+    }
+    advanceToNextPost()
+  }, [posts, stopPostTimer, advanceToNextPost])
+
   const startPostTimer = useCallback(() => {
     stopPostTimer()
     setPostTimerSeconds(POST_VIEW_TIMER_SECONDS)
@@ -102,13 +130,13 @@ export function GameProvider({ children }) {
       setPostTimerSeconds((s) => {
         if (s <= 1) {
           stopPostTimer()
-          advanceToNextPost()
+          handleTimeExpired()
           return 0
         }
         return s - 1
       })
     }, 1000)
-  }, [advanceToNextPost, stopPostTimer])
+  }, [stopPostTimer, handleTimeExpired])
 
   const onScrollReachedTarget = useCallback(() => {
     setScrollPhase('holding')
