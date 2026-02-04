@@ -1,24 +1,12 @@
-import React from "react";
-import { jsPDF } from "jspdf";
+import React, { useRef } from "react";
 import detectivekid from "../assets/GamePage/EndGamePopup/detectivekid.png";
 import { TiTick } from "react-icons/ti";
 import sheildlogo from "../assets/GamePage/EndGamePopup/shieldlogo.png";
 import banner from "../assets/GamePage/EndGamePopup/banner.png";
 import { IoMdDownload } from "react-icons/io";
 import redpin from "../assets/GamePage/EndGamePopup/redpin.png";
-
-function downloadSafetyChecklist() {
-  const doc = new jsPDF();
-  doc.setFontSize(16);
-  doc.text("Digital Footprint Detective - Safety Checklist", 20, 30);
-  doc.setFontSize(12);
-  doc.text("Before you post online, check:", 20, 50);
-  doc.text("- What's in the background?", 20, 65);
-  doc.text("- What does the text say?", 20, 78);
-  doc.text("- Are location tags on?", 20, 91);
-  doc.text("- Could someone find me with this info?", 20, 104);
-  doc.save("safety-checklist.pdf");
-}
+import PdfChecklist from "./PdfChecklist";
+import { captureElementAsPdf } from "../lib/pdfChecklist";
 
 function GameEndPopup({
   onPlayAgain,
@@ -28,8 +16,27 @@ function GameEndPopup({
   playAgainError = null,
 }) {
   const foundAllFive = categoriesFound >= 5
+  const checklistRef = useRef(null)
+
+  async function downloadSafetyChecklist() {
+    try {
+      await captureElementAsPdf(checklistRef.current);
+    } catch (err) {
+      console.error("Failed to generate PDF:", err);
+    }
+  }
 
   return (
+    <>
+      {/* Hidden checklist for PDF capture - rendered off-screen at A4 dimensions */}
+      <div
+        ref={checklistRef}
+        className="fixed left-[-9999px] top-0"
+        style={{ width: '794px' }}
+        aria-hidden
+      >
+        <PdfChecklist />
+      </div>
     <div className="fixed flex items-center justify-center p-2 sm:p-4 pt-20 sm:pt-24 inset-0 z-50 overflow-y-auto overflow-x-visible">
       <div
         className="absolute inset-0 bg-black/30 backdrop-blur-sm"
@@ -171,6 +178,7 @@ function GameEndPopup({
         </div>
       </div>
     </div>
+    </>
   );
 }
 
