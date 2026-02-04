@@ -144,6 +144,12 @@ export default function InstructionPage() {
                   If you think a post is safe and has no privacy risks, click the <strong>like button</strong> (heart icon) to show you&apos;ve checked it. That&apos;s the correct way to mark a safe post!
                 </p>
               </div>
+              <div>
+                <p className="font-semibold text-gray-900 mb-1 text-lg">Pause button:</p>
+                <p className="text-gray-700 leading-relaxed text-lg">
+                  During the game, you&apos;ll see a <strong>rules icon</strong> on the right side with the text &quot;Pause and review game&apos;s rules.&quot; Click it anytime to pause the game and review the instructions. The timer stops while paused—helpful if you need a quick reminder of the 5 risk categories or how to play!
+                </p>
+              </div>
             </div>
           </div>
 

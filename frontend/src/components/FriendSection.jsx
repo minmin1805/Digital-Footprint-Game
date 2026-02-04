@@ -43,12 +43,12 @@ function FriendSection() {
         }
     ]
   return (
-    <div className='flex items-center justify-between gap-3'>
+    <div className='flex items-center justify-between gap-1 sm:gap-3'>
         {friendsInfo.map((eachFriend) => {
             return (
-                <div key={eachFriend.id} className='flex flex-col items-center justify-center gap-1'>
-                    <img src={eachFriend.image} alt={eachFriend.name} className='w-14 h-14 rounded-full border-2 border-gray-300 shrink-0' />
-                    <p className='text-sm'>{eachFriend.name}</p>
+                <div key={eachFriend.id} className='flex flex-col items-center justify-center gap-0.5 sm:gap-1'>
+                    <img src={eachFriend.image} alt={eachFriend.name} className='w-10 h-10 sm:w-14 sm:h-14 rounded-full border-2 border-gray-300 shrink-0' />
+                    <p className='text-xs sm:text-sm truncate max-w-[52px] sm:max-w-[64px]'>{eachFriend.name}</p>
                 </div>
             )
         })}

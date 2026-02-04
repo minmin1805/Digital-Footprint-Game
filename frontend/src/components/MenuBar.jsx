@@ -62,7 +62,7 @@ function Icon({ name, active }) {
 
 export default function MenuBar() {
   return (
-    <aside className="flex flex-col gap-4 shrink-0 py-4 w-[100px] overflow-hidden">
+    <aside className="flex flex-col gap-2 sm:gap-4 shrink-0 py-2 sm:py-4 w-full max-w-[100px] overflow-visible">
       {navItems.map(({ id, label, icon, active }) => (
         <div
           key={id}

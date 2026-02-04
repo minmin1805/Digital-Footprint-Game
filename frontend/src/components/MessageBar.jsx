@@ -25,10 +25,10 @@ export default function MessageBar() {
   }
 
   return (
-    <aside className="flex flex-col items-center shrink-0 py-4 gap-6 w-[100px] overflow-hidden">
+    <aside className="flex flex-col items-center shrink-0 py-2 sm:py-4 gap-3 sm:gap-6 w-full max-w-[100px] overflow-visible">
       {/* Category found indicator */}
-      <div className="flex flex-col gap-4">
-        <p className="text-lg font-bold text-gray-700 text-center">Categories found</p>
+      <div className="flex flex-col gap-2 sm:gap-4">
+        <p className="text-sm sm:text-lg font-bold text-gray-700 text-center">Categories found</p>
         {CATEGORIES.map(({ slug, title, image }) => {
           const isFound = categoriesFound.has(slug)
           return (
@@ -40,11 +40,11 @@ export default function MessageBar() {
               <img
                 src={image}
                 alt={title}
-                className={`w-12 h-12 object-contain shrink-0 transition-all duration-300 ${
+                className={`w-8 h-8 sm:w-12 sm:h-12 object-contain shrink-0 transition-all duration-300 ${
                   isFound ? 'opacity-100' : 'opacity-40 grayscale'
                 }`}
               />
-              <span className="text-[15px] font-bold text-gray-700 text-center leading-tight max-w-[60px]">
+              <span className="text-xs sm:text-[15px] font-bold text-gray-700 text-center leading-tight max-w-[60px]">
                 {title}
               </span>
             </div>
@@ -52,20 +52,20 @@ export default function MessageBar() {
         })}
       </div>
 
-      {/* Rules button */}
+      {/* Rules button - pause and review */}
       <button
         type="button"
         onClick={handleRulesClick}
-        className="flex flex-col items-center gap-2 hover:cursor-pointer bg-transparent border-none p-0 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 rounded-lg mt-4"
+        className="flex flex-col items-center gap-1 sm:gap-2 hover:cursor-pointer bg-transparent border-none p-0 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 rounded-lg mt-2 sm:mt-4 shrink-0"
         aria-label="Pause and review game rules"
       >
         <img
           src={instructionLogo}
           alt=""
-          className="w-12 h-12 object-contain shrink-0"
+          className="w-8 h-8 sm:w-12 sm:h-12 object-contain shrink-0"
         />
-        <p className="text-xs font-medium text-gray-700 text-center leading-tight max-w-[80px]">
-          Pause and review game&apos;s rules
+        <p className="text-[10px] sm:text-xs font-medium text-gray-700 text-center leading-tight max-w-[70px] sm:max-w-[80px]">
+          Pause and review rules
         </p>
       </button>
     </aside>

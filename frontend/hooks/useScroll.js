@@ -40,10 +40,12 @@ function useScroll(viewportRef, feedInnerRef) {
         const postEl = children[currentPostIndex]
         const postTop = postEl.offsetTop
         const postHeight = postEl.offsetHeight
-        const postCenter = postTop + postHeight / 2
+        // Align post TOP with viewport top so head/username is visible on small screens
+        // (centering cut off top/bottom when viewport < post height)
+        const topPadding = 8
         targetScroll = Math.max(
           0,
-          Math.min(maxScroll, postCenter - viewportHeight / 2)
+          Math.min(maxScroll, postTop - topPadding)
         )
       }
 

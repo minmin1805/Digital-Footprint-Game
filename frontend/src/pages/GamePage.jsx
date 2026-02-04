@@ -167,42 +167,42 @@ function GamePage() {
   const categoriesFound = new Set(foundItems.map((f) => f.category)).size
 
   return (
-    <div className="relative flex flex-col items-center h-screen w-full max-w-[920px] mx-auto bg-blue-200 overflow-hidden">
+    <div className="relative flex flex-col items-center h-screen w-full max-w-[920px] mx-auto bg-blue-200 overflow-hidden min-h-0">
       {countdownActive && (
         <CountdownOverlay onComplete={handleCountdownComplete} />
       )}
-      {/* Banner + progress + post timer */}
-      <div className="flex flex-col items-center justify-center p-3 gap-2 bg-yellow-300 rounded-xl mt-2">
-        <h1 className="text-2xl font-bold text-center text-blue-500">Digital footprint detective</h1>
-        <div className="flex items-center gap-6">
+      {/* Banner + progress + post timer - compact on small screens */}
+      <div className="flex flex-col items-center justify-center p-2 sm:p-3 gap-1 sm:gap-2 bg-yellow-300 rounded-xl mt-1 sm:mt-2 shrink-0">
+        <h1 className="text-lg sm:text-2xl font-bold text-center text-blue-500">Digital footprint detective</h1>
+        <div className="flex items-center gap-3 sm:gap-6">
           <ProgressBar currentStep={categoriesFound} totalSteps={5} label="categories" />
           {!countdownActive && !currentPopup && (
             <div className="flex items-center gap-2 text-gray-800 font-bold">
-              <span className="text-lg">⏱</span>
-              <span className="text-xl tabular-nums">{postTimerSeconds}s</span>
+              <span className="text-base sm:text-lg">⏱</span>
+              <span className="text-lg sm:text-xl tabular-nums">{postTimerSeconds}s</span>
             </div>
           )}
         </div>
       </div>
 
-      <div className="w-full h-px bg-gray-900 my-4" />
+      <div className="w-full h-px bg-gray-900 my-2 sm:my-4 shrink-0" />
 
-      {/* Friends */}
-      <div>
+      {/* Friends - compact on small screens */}
+      <div className="shrink-0 px-2">
         <FriendSection />
       </div>
 
-      {/* Main: fixed sidebar widths + gap prevents sticking; identical local + remote */}
-      <div className="grid grid-cols-[100px_1fr_100px] items-stretch w-full flex-1 min-h-0 px-4 py-2 mt-2 gap-6">
-        <div className="flex justify-center items-start pt-8 overflow-hidden min-w-0">
+      {/* Main: responsive sidebar widths, allow scroll on sidebars for small screens */}
+      <div className="grid grid-cols-[70px_1fr_70px] sm:grid-cols-[90px_1fr_90px] lg:grid-cols-[100px_1fr_100px] items-stretch w-full flex-1 min-h-0 px-2 sm:px-4 py-1 sm:py-2 mt-1 sm:mt-2 gap-3 sm:gap-6 overflow-hidden">
+        <div className="flex justify-center items-start pt-4 sm:pt-8 overflow-y-auto overflow-x-hidden min-w-0">
           <MenuBar />
         </div>
 
-        <div className="flex justify-center items-stretch overflow-hidden min-w-0">
+        <div className="flex justify-center items-stretch overflow-hidden min-w-0 min-h-0">
           <FeedContainer />
         </div>
 
-        <div className="flex justify-center items-start pt-8 overflow-hidden min-w-0">
+        <div className="flex justify-center items-start pt-4 sm:pt-8 overflow-y-auto overflow-x-hidden min-w-0">
           <MessageBar />
         </div>
       </div>
