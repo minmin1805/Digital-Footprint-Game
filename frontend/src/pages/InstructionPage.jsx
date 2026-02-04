@@ -104,16 +104,16 @@ export default function InstructionPage() {
           {/* Your Goal */}
           <div>
             <h2 className="text-xl font-bold text-gray-900 mb-3">Your Goal</h2>
-            <p className="text-gray-700 leading-relaxed mb-4 text-lg">
-              Find unsafe posts across 5 privacy-risk categories and learn how
-              to fix them before someone else can use that information.
+            <p className="text-gray-700 leading-relaxed mb-3 text-lg">
+              Find unsafe posts across all 5 privacy-risk categories and learn
+              how to fix them before someone else can use that information.
             </p>
             <p className="font-bold text-gray-900 mb-2 text-xl">You win when:</p>
-            <ul className="space-y-2">
+            <ul className="space-y-2 mb-4">
               {[
                 "You finish reviewing the feed",
-                "You correctly identify the risks",
-                "You understand why they are unsafe",
+                "You find at least one unsafe post from each of the 5 categories",
+                "You understand why each risk is unsafe",
               ].map((item) => (
                 <li key={item} className="flex items-center gap-2">
                   <TiTick className="w-6 h-6 text-green-500 shrink-0 rounded-full bg-white" />
@@ -121,6 +121,30 @@ export default function InstructionPage() {
                 </li>
               ))}
             </ul>
+            <p className="text-gray-600 text-base">
+              <strong>Note:</strong> Some categories may have more than one unsafe post. You need to find all 5 categories to win.
+            </p>
+          </div>
+
+          <hr className="border-amber-200" />
+
+          {/* How to Play */}
+          <div>
+            <h2 className="text-xl font-bold text-gray-900 mb-3">How to Play</h2>
+            <div className="space-y-4">
+              <div>
+                <p className="font-semibold text-gray-900 mb-1 text-lg">Unsafe posts:</p>
+                <p className="text-gray-700 leading-relaxed text-lg">
+                  Click directly on the part of the post that you think is a privacy risk. The danger could be anywhere in the photo (like a street sign, license plate, or school logo) or in the caption/text. Click on the exact spot where you see the risk.
+                </p>
+              </div>
+              <div>
+                <p className="font-semibold text-gray-900 mb-1 text-lg">Safe posts:</p>
+                <p className="text-gray-700 leading-relaxed text-lg">
+                  If you think a post is safe and has no privacy risks, click the <strong>like button</strong> (heart icon) to show you&apos;ve checked it. That&apos;s the correct way to mark a safe post!
+                </p>
+              </div>
+            </div>
           </div>
 
           <hr className="border-amber-200" />
