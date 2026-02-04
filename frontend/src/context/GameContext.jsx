@@ -172,7 +172,7 @@ export function GameProvider({ children }) {
 
   const handleSafePostImageClick = useCallback((post, ev) => {
     if (post.type !== 'safe') return
-    showTooltip(ev, "This post is safe. Use the like button to show you've checked it!")
+    showTooltip(ev, "This area does not contain a privacy risk")
     setSafePostClickCounts((prev) => {
       const count = (prev[post.id] ?? 0) + 1
       if (count >= 3) {
