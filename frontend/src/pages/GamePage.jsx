@@ -35,6 +35,8 @@ function GamePage() {
     setSafePostClickCounts,
     setLikedSafePostIds,
     setShakingHeartPostId,
+    incorrectZoneTooltip,
+    setIncorrectZoneTooltip,
     setScrollDelayActive,
     setScrollPhase,
     setCurrentPostIndex,
@@ -114,6 +116,7 @@ function GamePage() {
     setFoundItems([])
     setLikedSafePostIds(new Set())
     setShakingHeartPostId(null)
+    setIncorrectZoneTooltip(null)
     setCurrentPopup(null)
     setIsPaused(false)
     setGameComplete(false)
@@ -136,6 +139,7 @@ function GamePage() {
     setSafePostClickCounts,
     setLikedSafePostIds,
     setShakingHeartPostId,
+    setIncorrectZoneTooltip,
     setScrollDelayActive,
     setCurrentPostIndex,
     setScrollPhase,
@@ -228,6 +232,21 @@ function GamePage() {
           playAgainLoading={playAgainLoading}
           playAgainError={playAgainError}
         />
+      )}
+
+      {/* Incorrect zone feedback - tooltip near cursor for 2 seconds */}
+      {incorrectZoneTooltip && (
+        <div
+          className="fixed z-50 pointer-events-none px-3 py-2 rounded-lg bg-gray-900 text-white text-sm font-medium shadow-lg whitespace-nowrap"
+          style={{
+            left: incorrectZoneTooltip.x + 12,
+            top: incorrectZoneTooltip.y + 12,
+          }}
+          role="status"
+          aria-live="polite"
+        >
+          That area doesn&apos;t contain a privacy risk
+        </div>
       )}
     </div>
   )

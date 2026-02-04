@@ -28,6 +28,7 @@ export function GameProvider({ children }) {
   const [safePostClickCounts, setSafePostClickCounts] = useState({}) // { postId: number }
   const [likedSafePostIds, setLikedSafePostIds] = useState(new Set()) // postIds correctly liked via heart
   const [shakingHeartPostId, setShakingHeartPostId] = useState(null) // postId for wrong heart click (unsafe)
+  const [incorrectZoneTooltip, setIncorrectZoneTooltip] = useState(null) // { x, y } for "that area doesn't contain a privacy risk"
   const [gameStartTime, setGameStartTime] = useState(null) // for playingTimeSeconds later
   const [scrollDelayActive, setScrollDelayActive] = useState(false) // true = hold feed still for 1.5s after countdown
 
@@ -127,6 +128,16 @@ export function GameProvider({ children }) {
     if (categories.size >= 5) setGameComplete(true)
   }
 
+  const incorrectZoneTooltipTimerRef = useRef(null)
+  const handleIncorrectZoneClick = useCallback((ev) => {
+    if (incorrectZoneTooltipTimerRef.current) clearTimeout(incorrectZoneTooltipTimerRef.current)
+    setIncorrectZoneTooltip({ x: ev.clientX, y: ev.clientY })
+    incorrectZoneTooltipTimerRef.current = setTimeout(() => {
+      setIncorrectZoneTooltip(null)
+      incorrectZoneTooltipTimerRef.current = null
+    }, 2000)
+  }, [])
+
   const handleIncorrectClick = (post) => {
     if (post.type !== 'safe') return
     const next = { ...safePostClickCounts, [post.id]: (safePostClickCounts[post.id] ?? 0) + 1 }
@@ -210,6 +221,9 @@ export function GameProvider({ children }) {
     setLikedSafePostIds,
     shakingHeartPostId,
     setShakingHeartPostId,
+    incorrectZoneTooltip,
+    setIncorrectZoneTooltip,
+    handleIncorrectZoneClick,
     gameStartTime,
     setGameStartTime,
     scrollDelayActive,

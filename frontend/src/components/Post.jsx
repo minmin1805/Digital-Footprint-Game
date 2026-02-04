@@ -9,7 +9,7 @@ import { useGame } from '../context/GameContext'
 const CAPTION_DANGER_IDS = ['post6', 'post9']
 
 function Post({ post, onCorrectClick, onIncorrectClick }) {
-  const { handleHeartClick, likedSafePostIds, shakingHeartPostId } = useGame()
+  const { handleHeartClick, likedSafePostIds, shakingHeartPostId, handleIncorrectZoneClick } = useGame()
   const { username, imageUrl, likes, comments, caption, tags = [] } = post
   const tagString = Array.isArray(tags) ? tags.join(' ') : ''
   const zones = post.dangerZones ?? []
@@ -19,7 +19,10 @@ function Post({ post, onCorrectClick, onIncorrectClick }) {
   const handleImageClick = useCallback(
     (ev) => {
       if (!onCorrectClick || !onIncorrectClick) return
-      if (isCaptionDanger) return
+      if (isCaptionDanger) {
+        handleIncorrectZoneClick?.(ev)
+        return
+      }
 
       const el = ev.currentTarget
       const { x: relX, y: relY } = getImageRelativeClick(ev, el)
@@ -41,14 +44,17 @@ function Post({ post, onCorrectClick, onIncorrectClick }) {
             return
           }
         }
-        if (post.type === 'danger') return
+        if (post.type === 'danger') {
+          handleIncorrectZoneClick?.(ev)
+          return
+        }
       }
 
       if (post.type === 'safe') {
         onIncorrectClick(post)
       }
     },
-    [post, zones, orig, isCaptionDanger, onCorrectClick, onIncorrectClick]
+    [post, zones, orig, isCaptionDanger, onCorrectClick, onIncorrectClick, handleIncorrectZoneClick]
   )
 
   const handleCaptionClick = useCallback(() => {
@@ -60,14 +66,24 @@ function Post({ post, onCorrectClick, onIncorrectClick }) {
     if (onIncorrectClick) onIncorrectClick(post)
   }, [post, onIncorrectClick])
 
+  const handleCaptionDangerPostClick = useCallback(
+    (ev) => {
+      if (!isCaptionDanger || post.type !== 'danger') return
+      if (ev.target.closest('[data-caption-danger]')) return
+      handleIncorrectZoneClick?.(ev)
+    },
+    [isCaptionDanger, post.type, handleIncorrectZoneClick]
+  )
+
   const isSafe = post.type === 'safe'
   const isLiked = likedSafePostIds?.has(post.id)
   const isShaking = shakingHeartPostId === post.id
 
   return (
     <article
-      className={`w-full max-w-[600px] shrink-0 bg-white rounded-2xl border border-gray-800 overflow-hidden shadow-sm ${isSafe ? 'cursor-pointer' : ''}`}
+      className={`w-full max-w-[600px] shrink-0 bg-white rounded-2xl border border-gray-800 overflow-hidden shadow-sm ${isSafe || isCaptionDanger ? 'cursor-pointer' : ''}`}
       {...(isSafe && { onClick: handleSafePostClick })}
+      {...(isCaptionDanger && { onClick: handleCaptionDangerPostClick })}
     >
       {/* Header: avatar + username */}
       <div className="flex items-center gap-3 px-4 py-3">
@@ -146,9 +162,10 @@ function Post({ post, onCorrectClick, onIncorrectClick }) {
         {caption && (
           isCaptionDanger ? (
             <div
+              data-caption-danger
               role="button"
               tabIndex={0}
-              onClick={handleCaptionClick}
+              onClick={(e) => { e.stopPropagation(); handleCaptionClick() }}
               onKeyDown={(e) => e.key === 'Enter' && handleCaptionClick()}
               className="text-lg text-gray-800 leading-snug break-words cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-400 rounded"
             >
