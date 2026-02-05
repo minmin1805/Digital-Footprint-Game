@@ -171,29 +171,29 @@ function GamePage() {
       {countdownActive && (
         <CountdownOverlay onComplete={handleCountdownComplete} />
       )}
-      {/* Banner + progress + post timer - compact on small screens */}
-      <div className="flex flex-col items-center justify-center p-2 sm:p-3 gap-1 sm:gap-2 bg-yellow-300 rounded-xl mt-1 sm:mt-2 shrink-0">
-        <h1 className="text-lg sm:text-2xl font-bold text-center text-blue-500">Digital footprint detective</h1>
-        <div className="flex items-center gap-3 sm:gap-6">
+      {/* Banner + progress - compact to maximize space for post */}
+      <div className="flex flex-row flex-wrap items-center justify-center gap-2 sm:gap-4 p-1.5 sm:p-3 bg-yellow-300 rounded-xl mt-1 sm:mt-2 shrink-0">
+        <h1 className="text-base sm:text-2xl font-bold text-blue-500 shrink-0">Digital footprint detective</h1>
+        <div className="flex items-center gap-2 sm:gap-6">
           <ProgressBar currentStep={categoriesFound} totalSteps={5} label="categories" />
           {!countdownActive && !currentPopup && (
             <div className="flex items-center gap-2 text-gray-800 font-bold">
-              <span className="text-base sm:text-lg">⏱</span>
-              <span className="text-lg sm:text-xl tabular-nums">{postTimerSeconds}s</span>
+              <span className="text-sm sm:text-lg">⏱</span>
+              <span className="text-base sm:text-xl tabular-nums">{postTimerSeconds}s</span>
             </div>
           )}
         </div>
       </div>
 
-      <div className="w-full h-px bg-gray-900 my-2 sm:my-4 shrink-0" />
+      <div className="w-full h-px bg-gray-900 my-1 sm:my-3 shrink-0" />
 
-      {/* Friends - compact on small screens */}
-      <div className="shrink-0 px-2">
+      {/* Friends - hidden on short viewports (max-height: 700px) to free space */}
+      <div className="shrink-0 px-2 hide-friends-on-short">
         <FriendSection />
       </div>
 
       {/* Main: right column wider for "Categories found" text */}
-      <div className="grid grid-cols-[70px_1fr_95px] sm:grid-cols-[90px_1fr_115px] lg:grid-cols-[100px_1fr_125px] items-stretch w-full flex-1 min-h-0 px-2 sm:px-4 py-1 sm:py-2 mt-1 sm:mt-2 gap-3 sm:gap-6 overflow-hidden">
+      <div className="grid grid-cols-[70px_1fr_95px] sm:grid-cols-[90px_1fr_115px] lg:grid-cols-[100px_1fr_125px] items-stretch w-full flex-1 min-h-0 px-2 sm:px-4 py-0.5 sm:py-2 mt-0.5 sm:mt-2 gap-3 sm:gap-6 overflow-hidden">
         <div className="flex justify-center items-start pt-4 sm:pt-8 overflow-y-auto overflow-x-hidden min-w-0">
           <MenuBar />
         </div>

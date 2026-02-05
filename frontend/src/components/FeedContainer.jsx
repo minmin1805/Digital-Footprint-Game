@@ -26,7 +26,7 @@ function FeedContainer() {
     >
       <div
         ref={feedInnerRef}
-        className="flex flex-col items-center gap-8 sm:gap-16 py-2 sm:py-4 w-full max-w-[360px] sm:max-w-[420px] lg:max-w-[480px] shrink-0"
+        className="flex flex-col items-center gap-6 sm:gap-12 lg:gap-16 py-1 sm:py-4 w-full max-w-[360px] sm:max-w-[420px] lg:max-w-[480px] shrink-0"
         style={{ transform: `translateY(-${scrollPosition}px)` }}
       >
         {posts.map((post) => (
