@@ -170,7 +170,7 @@ function GameEndPopup({
                 disabled={playAgainLoading}
                 className="w-full py-2.5 sm:py-3 rounded-xl bg-green-600 hover:bg-green-700 disabled:opacity-70 disabled:cursor-not-allowed text-white font-bold text-center transition-colors text-sm sm:text-base"
               >
-                {playAgainLoading ? 'Saving...' : 'Play again'}
+                {playAgainLoading ? 'Saving...' : 'Exit to Main Menu'}
               </button>
             </div>
           </div>

@@ -66,7 +66,7 @@ export default function MenuBar() {
       {navItems.map(({ id, label, icon, active }) => (
         <div
           key={id}
-          className={`flex flex-col items-center gap-1 cursor-pointer ${active ? 'font-bold text-gray-900' : 'text-gray-500 hover:text-gray-700'}`}
+          className={`flex flex-col items-center gap-1 ${active ? 'font-bold text-gray-900' : 'text-gray-500'}`}
         >
           <Icon name={icon} active={active} />
           <span className="text-sm">{label}</span>
