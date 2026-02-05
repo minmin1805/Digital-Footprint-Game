@@ -21,10 +21,10 @@ function UnsafePopup({ post, zone, onClose }) {
         aria-hidden
       />
 
-      {/* Popup card */}
-      <div className='relative w-full max-w-xl bg-gray rounded-2xl border-gray-950 border-3 shadow-xl overflow-hidden p-5 bg-gray-300'>
+      {/* Popup card - scrollable on small screens */}
+      <div className='relative w-full max-w-xl max-h-[90vh] bg-gray rounded-2xl border-gray-950 border-3 shadow-xl overflow-hidden p-5 bg-gray-300'>
       <div
-        className=" bg-white rounded-2xl overflow-hidden"
+        className="bg-white rounded-2xl overflow-y-auto max-h-[calc(90vh-2.5rem)]"
         role="dialog"
         aria-labelledby="unsafe-popup-title"
         aria-modal="true"
