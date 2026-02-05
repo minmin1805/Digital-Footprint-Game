@@ -172,8 +172,7 @@ function GamePage() {
         <CountdownOverlay onComplete={handleCountdownComplete} />
       )}
       {/* Banner + progress - compact to maximize space for post */}
-      <div className="flex flex-row flex-wrap items-center justify-center gap-2 sm:gap-4 p-1.5 sm:p-3 bg-yellow-300 rounded-xl mt-1 sm:mt-2 shrink-0">
-        <h1 className="text-base sm:text-2xl font-bold text-blue-500 shrink-0">Digital footprint detective</h1>
+      <div className="flex flex-col items-center justify-center gap-2 sm:gap-4 p-1.5 sm:p-3 bg-yellow-300 rounded-xl mt-1 sm:mt-2 shrink-0">
         <div className="flex items-center gap-2 sm:gap-6">
           <ProgressBar currentStep={categoriesFound} totalSteps={5} label="categories" />
           {!countdownActive && !currentPopup && (
