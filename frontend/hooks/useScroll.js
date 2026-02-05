@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { useGame } from '../src/context/GameContext.jsx'
 
-const SCROLL_SPEED_PX_PER_FRAME = 2
+const SCROLL_SPEED_PX_PER_FRAME = 3
 const TARGET_TOLERANCE_PX = 2
 
 function useScroll(viewportRef, feedInnerRef) {
