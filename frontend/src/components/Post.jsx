@@ -77,18 +77,18 @@ function Post({ post, onCorrectClick }) {
       {...(isCaptionDanger && { onClick: handleCaptionDangerPostClick })}
     >
       {/* Header: avatar + username */}
-      <div className="flex items-center gap-3 px-4 py-3">
+      <div className="flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 sm:py-3">
         <div
           className="w-10 h-10 rounded-full shrink-0 bg-gradient-to-tl from-green-400 via-yellow-300 to-sky-300"
           aria-hidden
         />
-        <span className="font-semibold text-gray-900">{username}</span>
+        <span className="font-semibold text-gray-900 text-sm sm:text-base">{username}</span>
       </div>
-      <div className='w-full h-[1px] bg-gray-900 my-2'></div>
+      <div className='w-full h-px bg-gray-900 my-1.5 sm:my-2'></div>
 
-      {/* Main image — clickable for zone hit-test (danger posts); safe posts show warning on image click */}
+      {/* Main image — shorter aspect on small screens so post fits viewport */}
       <div
-        className="relative w-full aspect-square bg-gray-100 cursor-pointer"
+        className="relative w-full aspect-[4/3] sm:aspect-square bg-gray-100 cursor-pointer"
         onClick={isSafe ? (ev) => handleSafePostImageClick?.(post, ev) : handleImageClick}
       >
         {imageUrl ? (
@@ -104,10 +104,10 @@ function Post({ post, onCorrectClick }) {
           </div>
         )}
       </div>
-      <div className='w-full h-[1px] bg-gray-900 my-2'></div>
+      <div className='w-full h-px bg-gray-900 my-1.5 sm:my-2'></div>
 
       {/* Footer: icons + counts + caption */}
-      <div className="px-4 py-3 space-y-2">
+      <div className="px-3 sm:px-4 py-2 sm:py-3 space-y-1.5 sm:space-y-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <button

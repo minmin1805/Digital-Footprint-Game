@@ -25,10 +25,12 @@ export default function MessageBar() {
   }
 
   return (
-    <aside className="flex flex-col items-center shrink-0 py-2 sm:py-4 gap-3 sm:gap-6 w-full max-w-[100px] overflow-visible">
+    <aside className="flex flex-col items-center shrink-0 py-2 sm:py-4 gap-3 sm:gap-6 w-full min-w-0 overflow-visible">
       {/* Category found indicator */}
-      <div className="flex flex-col gap-2 sm:gap-4">
-        <p className="text-sm sm:text-lg font-bold text-gray-700 text-center">Categories found</p>
+      <div className="flex flex-col gap-2 sm:gap-4 w-full">
+        <p className="text-xs sm:text-base font-bold text-gray-700 text-center leading-tight break-words w-full px-0.5">
+          Categories found
+        </p>
         {CATEGORIES.map(({ slug, title, image }) => {
           const isFound = categoriesFound.has(slug)
           return (
@@ -44,7 +46,7 @@ export default function MessageBar() {
                   isFound ? 'opacity-100' : 'opacity-40 grayscale'
                 }`}
               />
-              <span className="text-xs sm:text-[15px] font-bold text-gray-700 text-center leading-tight max-w-[60px]">
+              <span className="text-xs sm:text-[15px] font-bold text-gray-700 text-center leading-tight w-full break-words">
                 {title}
               </span>
             </div>

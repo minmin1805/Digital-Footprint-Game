@@ -192,8 +192,8 @@ function GamePage() {
         <FriendSection />
       </div>
 
-      {/* Main: responsive sidebar widths, allow scroll on sidebars for small screens */}
-      <div className="grid grid-cols-[70px_1fr_70px] sm:grid-cols-[90px_1fr_90px] lg:grid-cols-[100px_1fr_100px] items-stretch w-full flex-1 min-h-0 px-2 sm:px-4 py-1 sm:py-2 mt-1 sm:mt-2 gap-3 sm:gap-6 overflow-hidden">
+      {/* Main: right column wider for "Categories found" text */}
+      <div className="grid grid-cols-[70px_1fr_95px] sm:grid-cols-[90px_1fr_115px] lg:grid-cols-[100px_1fr_125px] items-stretch w-full flex-1 min-h-0 px-2 sm:px-4 py-1 sm:py-2 mt-1 sm:mt-2 gap-3 sm:gap-6 overflow-hidden">
         <div className="flex justify-center items-start pt-4 sm:pt-8 overflow-y-auto overflow-x-hidden min-w-0">
           <MenuBar />
         </div>
