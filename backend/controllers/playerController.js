@@ -32,13 +32,15 @@ export const createPlayer = async (req, res) => {
 export const updatePlayer = async (req, res) => {
   try {
     const { id } = req.params
-    const { score, totalPossible, categoriesFound, playingTimeSeconds, completedAt } = req.body
+    const { score, totalPossible, categoriesFound, playingTimeSeconds, safepostDetected, safepostTotal, completedAt } = req.body
 
     const update = {}
     if (typeof score === 'number') update.score = score
     if (typeof totalPossible === 'number') update.totalPossible = totalPossible
     if (Array.isArray(categoriesFound)) update.categoriesFound = categoriesFound
     if (typeof playingTimeSeconds === 'number') update.playingTimeSeconds = playingTimeSeconds
+    if (typeof safepostDetected === 'number') update.safepostDetected = safepostDetected
+    if (typeof safepostTotal === 'number') update.safepostTotal = safepostTotal
     if (completedAt) update.completedAt = new Date(completedAt)
 
     const updated = await Player.findByIdAndUpdate(

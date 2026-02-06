@@ -12,6 +12,8 @@ function GameEndPopup({
   onPlayAgain,
   unsafePostsFound = 0,
   categoriesFound = 0,
+  safepostDetected = 0,
+  safepostTotal = 0,
   playAgainLoading = false,
   playAgainError = null,
 }) {
@@ -51,26 +53,33 @@ function GameEndPopup({
         />
         <div className="relative w-full rounded-2xl border-4 border-green-800 shadow-xl p-3 bg-green-800 max-h-[85vh] overflow-y-auto">
           <div className="bg-amber-100 rounded-2xl flex flex-col items-center justify-center pt-14 overflow-hidden">
-            <div className="flex justify-between items-center w-full gap-2">
-              {foundAllFive ? (
-                <p className="max-w-md text-center text-xl font-bold text-gray-900 ml-4 mt-2">
-                  You found all 5 privacy risk categories and learned to protect
-                  your digital footprint! You spotted {unsafePostsFound} unsafe
-                  post{unsafePostsFound === 1 ? '' : 's'} in total.
-                </p>
-              ) : (
-                <p className="max-w-md text-center text-xl font-bold text-gray-900 ml-4 mt-2">
-                  You found {categoriesFound}/5 privacy risk categories. You
-                  spotted {unsafePostsFound} unsafe post{unsafePostsFound === 1 ? '' : 's'}{' '}
-                  in total. Keep practicing — play again to find all 5 and become
-                  a Digital Footprint Detective!
+            <div className="flex flex-col items-center w-full gap-2">
+              <div className="flex justify-between items-center w-full gap-2">
+                {foundAllFive ? (
+                  <p className="max-w-md text-center text-xl font-bold text-gray-900 ml-4 mt-2">
+                    You found all <span className="text-green-500">{5}</span> privacy risk categories and learned to protect
+                    your digital footprint! You spotted <span className="text-green-500">{unsafePostsFound}</span> unsafe
+                    post{unsafePostsFound === 1 ? '' : 's'} 
+                  </p>
+                ) : (
+                  <p className="max-w-md text-center text-xl font-bold text-gray-900 ml-4 mt-2">
+                    You found <span className="text-green-500">{categoriesFound}</span>/5 privacy risk categories. You
+                    spotted <span className="text-green-500">{unsafePostsFound}</span> unsafe post{unsafePostsFound === 1 ? '' : 's'}{' '}
+                    in total. Keep practicing — play again to find all 5 and become
+                    a Digital Footprint Detective!
+                  </p>
+                )}
+                <img
+                  src={detectivekid}
+                  alt=""
+                  className="w-36 h-36 shrink-0 object-contain"
+                />
+              </div>
+              {safepostTotal > 0 && (
+                <p className="text-lg font-bold text-gray-800 mt-2 mb-2 text-center">
+                  Safe posts detected: <span className="text-green-500">{safepostDetected}</span> of {safepostTotal}
                 </p>
               )}
-              <img
-                src={detectivekid}
-                alt=""
-                className="w-36 h-36 shrink-0 object-contain"
-              />
             </div>
 
           <div className="w-full rounded-2xl overflow-hidden px-4">

@@ -374,33 +374,33 @@
     "id": "post15",
     "index": 15,
     "type": "danger",
-    "category": "family_home",
-    "imageKey": "image8",
-    "username": "camping_family",
-    "caption": "Family road trip! 🚗",
-    "tags": ["#roadtrip", "#family"],
-    "likes": 11,
-    "comments": 2,
+    "category": "daily_routines",
+    "imageKey": "image6",
+    "username": "study_corner_goals",
+    "caption": "Study corner setup 📚",
+    "tags": ["#study", "#desk"],
+    "likes": 9,
+    "comments": 1,
     "dangerZones": [
       {
-        "id": "post15-zone1",
-        "category": "family_home",
-        "type": "license_plate",
+        "id": "post19-zone1",
+        "category": "daily_routines",
+        "type": "class_schedule",
         "originalWidth": 800,
         "originalHeight": 800,
-        "x": 266,
-        "y": 513,
-        "width": 198,
-        "height": 56,
+        "x": 0,
+        "y": 52,
+        "width": 187,
+        "height": 344,
         "explanation": {
-          "title": "License Plate \"ABC-1234\"",
-          "whatFound": "License plate number on family car",
-          "whyDangerous": "Someone could follow your car, find out where you live, and learn your family's routine.",
+          "title": "Class Schedule Paper",
+          "whatFound": "School schedule showing daily times and room number",
+          "whyDangerous": "Expose your daily routine which makes you predictable and easier to target.",
           "whatToDoInstead": [
-            "Always blur or cover license plates in photos",
-            "Check all car photos before posting"
+            "Don't post photos that show your daily routine",
+            "Keep papers with personal information out of frame"
           ],
-          "quickTip": "Most photo editing apps have a blur tool!"
+          "quickTip": "When showing off your study corner, make sure nothing on the walls reveals your personal information."
         }
       }
     ],
@@ -488,33 +488,33 @@
     "id": "post19",
     "index": 19,
     "type": "danger",
-    "category": "daily_routines",
-    "imageKey": "image6",
-    "username": "study_corner_goals",
-    "caption": "Study corner setup 📚",
-    "tags": ["#study", "#desk"],
-    "likes": 9,
-    "comments": 1,
+    "category": "family_home",
+    "imageKey": "image8",
+    "username": "camping_family",
+    "caption": "Family road trip! 🚗",
+    "tags": ["#roadtrip", "#family"],
+    "likes": 11,
+    "comments": 2,
     "dangerZones": [
       {
-        "id": "post19-zone1",
-        "category": "daily_routines",
-        "type": "class_schedule",
+        "id": "post15-zone1",
+        "category": "family_home",
+        "type": "license_plate",
         "originalWidth": 800,
         "originalHeight": 800,
-        "x": 0,
-        "y": 52,
-        "width": 187,
-        "height": 344,
+        "x": 266,
+        "y": 513,
+        "width": 198,
+        "height": 56,
         "explanation": {
-          "title": "Class Schedule Paper",
-          "whatFound": "School schedule showing daily times and room number",
-          "whyDangerous": "Expose your daily routine which makes you predictable and easier to target.",
+          "title": "License Plate \"ABC-1234\"",
+          "whatFound": "License plate number on family car",
+          "whyDangerous": "Someone could follow your car, find out where you live, and learn your family's routine.",
           "whatToDoInstead": [
-            "Don't post photos that show your daily routine",
-            "Keep papers with personal information out of frame"
+            "Always blur or cover license plates in photos",
+            "Check all car photos before posting"
           ],
-          "quickTip": "When showing off your study corner, make sure nothing on the walls reveals your personal information."
+          "quickTip": "Most photo editing apps have a blur tool!"
         }
       }
     ],

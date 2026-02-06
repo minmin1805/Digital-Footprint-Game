@@ -21,6 +21,8 @@ function GamePage() {
     playerId,
     score,
     foundItems,
+    likedSafePostIds,
+    posts,
     gameStartTime,
     countdownActive,
     setCountdownActive,
@@ -61,11 +63,15 @@ function GamePage() {
         ? Math.round((Date.now() - gameStartTime) / 1000)
         : 0
       const categoriesFound = [...new Set(foundItems.map((f) => f.category))]
+      const safepostTotal = posts.filter((p) => p.type === 'safe').length
+      const safepostDetected = likedSafePostIds?.size ?? 0
 
       await updatePlayer(playerId, {
         score,
         totalPossible: 5,
         categoriesFound,
+        safepostDetected,
+        safepostTotal,
         playingTimeSeconds,
         completedAt: new Date().toISOString(),
       })
@@ -83,6 +89,8 @@ function GamePage() {
     playerId,
     score,
     foundItems,
+    likedSafePostIds,
+    posts,
     gameStartTime,
     handleCompletionClose,
     navigate,
@@ -165,6 +173,8 @@ function GamePage() {
   }, [setCountdownActive, setGameStartTime, setScrollDelayActive, setScrollPhase, startPostTimer])
 
   const categoriesFound = new Set(foundItems.map((f) => f.category)).size
+  const safepostTotal = posts.filter((p) => p.type === 'safe').length
+  const safepostDetected = likedSafePostIds?.size ?? 0
 
   return (
     <div className="relative flex flex-col items-center h-screen w-full max-w-[920px] mx-auto bg-blue-200 overflow-hidden min-h-0">
@@ -229,6 +239,8 @@ function GamePage() {
           onPlayAgain={handlePlayAgain}
           unsafePostsFound={score}
           categoriesFound={categoriesFound}
+          safepostDetected={safepostDetected}
+          safepostTotal={safepostTotal}
           playAgainLoading={playAgainLoading}
           playAgainError={playAgainError}
         />
