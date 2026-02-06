@@ -86,9 +86,9 @@ function Post({ post, onCorrectClick }) {
       </div>
       <div className='w-full h-px bg-gray-900 my-0.5 sm:my-1.5'></div>
 
-      {/* Main image — shorter aspect on small screens so post fits viewport */}
+      {/* Main image — object-cover so image fills container entirely (required for correct click/danger-zone detection) */}
       <div
-        className="relative w-full aspect-[3/2] sm:aspect-[4/3] lg:aspect-square bg-gray-100 cursor-pointer"
+        className="relative w-full aspect-[4/5] sm:aspect-[4/3] lg:aspect-square bg-gray-100 cursor-pointer overflow-hidden"
         onClick={isSafe ? (ev) => handleSafePostImageClick?.(post, ev) : handleImageClick}
       >
         {imageUrl ? (

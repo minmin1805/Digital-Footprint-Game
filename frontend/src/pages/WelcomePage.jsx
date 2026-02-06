@@ -10,31 +10,32 @@ function WelcomePage() {
 
   return (
     <div className="min-h-screen w-full bg-blue-200">
-      <div className="flex flex-col items-center px-4 pt-6 pb-12">
+      <div className="flex flex-col items-center px-4 pt-6 pb-12 w-full">
         {/* Golden banner */}
         <img
           src={welcomebanner}
           alt=""
-          className="w-full max-w-[40%] object-contain mx-auto"
+          className="w-100 object-contain mx-auto"
           aria-hidden
         />
 
         {/* Instructional text */}
         <div className="flex flex-col items-center gap-1 mt-4 text-blue-900 font-semibold text-lg">
           <div className="flex items-center gap-2">
-            <img src={magnifyingglass} alt="magnifyingglass" className="w-10 h-10 text-blue-800 shrink-0" />
-            <span className="text-2xl">Spot unsafe posts.</span>
+            <img src={magnifyingglass} alt="magnifyingglass" className="w-8 h-8 max-[430px]:w-5 max-[430px]:h-8 text-blue-800 shrink-0" />
+            <span className="text-2xl max-[430px]:text-xl">Spot unsafe posts.</span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-2xl">Protect your digital life.</span>
+            <span className="text-2xl max-[430px]:text-xl">Protect your digital life.</span>
           </div>
         </div>
 
+<div className='flex flex-col items-center'>
         {/* Detective character */}
         <img
           src={detectivekid}
           alt=""
-          className="w-100 h-100 max-w-[40%] object-contain mt-6"
+          className="w-50 object-contain mt-6"
           aria-hidden
         />
 
@@ -66,6 +67,7 @@ function WelcomePage() {
           <div className="flex items-center justify-center gap-2 mt-4 text-blue-900 font-medium text-sm">
             <span>Find unsafe posts across 5 privacy categories.</span>
           </div>
+        </div>
         </div>
       </div>
     </div>

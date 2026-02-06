@@ -171,30 +171,30 @@ function GamePage() {
       {countdownActive && (
         <CountdownOverlay onComplete={handleCountdownComplete} />
       )}
-      {/* Banner + progress - compact to maximize space for post */}
-      <div className="flex flex-col items-center justify-center gap-2 sm:gap-4 p-1.5 sm:p-3 bg-yellow-300 rounded-xl mt-1 sm:mt-2 shrink-0">
-        <h1 className="text-base sm:text-2xl font-bold text-blue-500 shrink-0">Digital footprint detective</h1>
-        <div className="flex items-center gap-2 sm:gap-6">
+      {/* Banner + progress - compact to maximize space for post; smaller on phone (≤430px) */}
+      <div className="flex flex-col items-center justify-center gap-2 max-[430px]:gap-1 sm:gap-4 p-1.5 max-[430px]:p-2 sm:p-3 bg-yellow-300 rounded-xl mt-1 max-[430px]:mt-0.5 sm:mt-2 shrink-0">
+        <h1 className="text-base sm:text-2xl font-bold text-blue-500 shrink-0 max-[430px]:text-l">Digital footprint detective</h1>
+        <div className="flex items-center gap-2 max-[430px]:gap-1 sm:gap-6">
           <ProgressBar currentStep={categoriesFound} totalSteps={5} label="categories" />
           {!countdownActive && !currentPopup && (
-            <div className="flex items-center gap-2 text-gray-800 font-bold">
-              <span className="text-sm sm:text-lg">⏱</span>
-              <span className="text-base sm:text-xl tabular-nums">{postTimerSeconds}s</span>
+            <div className="flex items-center gap-2 max-[430px]:gap-1 text-gray-800 font-bold">
+              <span className="text-sm max-[430px]:text-xs sm:text-lg">⏱</span>
+              <span className="text-base max-[430px]:text-xs sm:text-xl tabular-nums">{postTimerSeconds}s</span>
             </div>
           )}
         </div>
       </div>
 
-      <div className="w-full h-px bg-gray-900 my-1 sm:my-3 shrink-0" />
+      <div className="w-full h-px bg-gray-900 my-1 max-[430px]:my-0.5 sm:my-3 shrink-0" />
 
       {/* Friends - hidden on short viewports (max-height: 700px) to free space */}
-      <div className="shrink-0 px-2 hide-friends-on-short">
+      <div className="shrink-0 px-2">
         <FriendSection />
       </div>
 
-      {/* Main: right column wider for "Categories found" text */}
-      <div className="grid grid-cols-[70px_1fr_95px] sm:grid-cols-[90px_1fr_115px] lg:grid-cols-[100px_1fr_125px] items-stretch w-full flex-1 min-h-0 px-2 sm:px-4 py-0.5 sm:py-2 mt-0.5 sm:mt-2 gap-3 sm:gap-6 overflow-hidden">
-        <div className="flex justify-center items-start pt-4 sm:pt-8 overflow-y-auto overflow-x-hidden min-w-0">
+      {/* Main: narrower sidebars on phone (≤430px) so post gets more space */}
+      <div className="grid grid-cols-[52px_1fr_68px] sm:grid-cols-[90px_1fr_115px] lg:grid-cols-[100px_1fr_125px] items-stretch w-full flex-1 min-h-0 px-1 max-[430px]:px-1 sm:px-4 py-0.5 sm:py-2 mt-0.5 sm:mt-2 gap-2 max-[430px]:gap-2 sm:gap-6 overflow-hidden">
+        <div className="flex justify-center items-start pt-2 max-[430px]:pt-2 sm:pt-8 overflow-y-auto overflow-x-hidden min-w-0">
           <MenuBar />
         </div>
 
@@ -202,7 +202,7 @@ function GamePage() {
           <FeedContainer />
         </div>
 
-        <div className="flex justify-center items-start pt-4 sm:pt-8 overflow-y-auto overflow-x-hidden min-w-0">
+        <div className="flex justify-center items-start pt-2 max-[430px]:pt-2 sm:pt-8 overflow-y-auto overflow-x-hidden min-w-0">
           <MessageBar />
         </div>
       </div>

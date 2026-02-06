@@ -11,7 +11,7 @@ const navItems = [
 ]
 
 function Icon({ name, active }) {
-  const cn = `w-8 h-8 ${active ? 'text-gray-900' : 'text-gray-500'}`
+  const cn = `w-8 h-8 max-[430px]:w-5 max-[430px]:h-5 ${active ? 'text-gray-900' : 'text-gray-500'}`
   switch (name) {
     case 'home':
       return (
@@ -62,14 +62,14 @@ function Icon({ name, active }) {
 
 export default function MenuBar() {
   return (
-    <aside className="flex flex-col gap-2 sm:gap-4 shrink-0 py-2 sm:py-4 w-full max-w-[100px] overflow-visible">
+    <aside className="flex flex-col gap-2 max-[430px]:gap-1 sm:gap-4 shrink-0 py-2 max-[430px]:py-1 sm:py-4 w-full max-w-[100px] overflow-visible">
       {navItems.map(({ id, label, icon, active }) => (
         <div
           key={id}
-          className={`flex flex-col items-center gap-1 ${active ? 'font-bold text-gray-900' : 'text-gray-500'}`}
+          className={`flex flex-col items-center gap-1 max-[430px]:gap-0.5 ${active ? 'font-bold text-gray-900' : 'text-gray-500'}`}
         >
           <Icon name={icon} active={active} />
-          <span className="text-sm">{label}</span>
+          <span className="text-sm max-[430px]:text-[9px]">{label}</span>
         </div>
       ))}
     </aside>

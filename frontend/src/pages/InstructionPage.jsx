@@ -71,32 +71,36 @@ export default function InstructionPage() {
       <div className="max-w-4xl mx-auto rounded-2xl border-2 border-amber-200 bg-amber-50/90 shadow-lg overflow-hidden">
         <div className="p-6 md:p-8 space-y-8">
           {/* Welcome + intro + shield */}
-          <div className="relative">
-            <div className="pr-28 md:pr-36">
-              <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+          <div className="space-y-4">
+            {/* Row 1: Title + shield logo side by side */}
+            <div className="flex flex-row items-center gap-3">
+              <h1 className="text-2xl md:text-3xl font-bold text-gray-900 flex-1 min-w-0">
                 Welcome to Digital Footprint Detective!
               </h1>
-              <p className="text-gray-700 leading-relaxed mb-3 text-lg">
-                Your mission is to review social media posts and spot anything
-                that could put someone&apos;s privacy or safety at risk.
-              </p>
-              <p className="text-gray-700 leading-relaxed mb-4 text-lg">
-                Every time you catch a risky detail, you earn points and learn
-                how to post smarter and safer online.
-              </p>
-              <div className="flex items-center gap-2 text-gray-700 font-medium">
-                <MagnifyingGlassIcon className="w-5 h-5 text-amber-600 shrink-0" />
-                <span className="text-lg">
-                  Look closely – some risks are hidden in plain sight!
-                </span>
-              </div>
+              <img
+                src={shieldlogo}
+                alt=""
+                className="w-20 h-20 md:w-24 md:h-24 shrink-0 object-contain"
+                aria-hidden
+              />
             </div>
-            <img
-              src={shieldlogo}
-              alt=""
-              className="absolute top-0 right-0 w-30 h-30 object-contain"
-              aria-hidden
-            />
+            {/* Row 2: Mission */}
+            <p className="text-gray-700 leading-relaxed text-lg">
+              Your mission is to review social media posts and spot anything
+              that could put someone&apos;s privacy or safety at risk.
+            </p>
+            {/* Row 3: Points */}
+            <p className="text-gray-700 leading-relaxed text-lg">
+              Every time you catch a risky detail, you earn points and learn
+              how to post smarter and safer online.
+            </p>
+            {/* Row 4: Look closely hint */}
+            <div className="flex items-center gap-2 text-gray-700 font-medium">
+              <MagnifyingGlassIcon className="w-5 h-5 text-amber-600 shrink-0" />
+              <span className="text-lg">
+                Look closely – some risks are hidden in plain sight!
+              </span>
+            </div>
           </div>
 
           <hr className="border-amber-200" />
@@ -164,7 +168,7 @@ export default function InstructionPage() {
               {RISK_CARDS.map((card) => (
                 <div
                   key={card.num}
-                  className="flex flex-col h-full min-h-[260px] rounded-xl overflow-hidden border border-amber-200 bg-white shadow-sm"
+                  className="flex flex-col h-full rounded-xl overflow-hidden border border-amber-200 bg-white shadow-sm"
                 >
                   <div
                     className={`${card.headerBg} shrink-0 min-h-14 flex items-center justify-center px-2 py-2 text-center`}

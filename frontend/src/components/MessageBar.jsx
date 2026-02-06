@@ -25,10 +25,10 @@ export default function MessageBar() {
   }
 
   return (
-    <aside className="flex flex-col items-center shrink-0 py-2 sm:py-4 gap-3 sm:gap-6 w-full min-w-0 overflow-visible">
+    <aside className="flex flex-col items-center shrink-0 py-2 max-[430px]:py-1 sm:py-4 gap-3 max-[430px]:gap-2 sm:gap-6 w-full min-w-0 overflow-visible">
       {/* Category found indicator */}
-      <div className="flex flex-col gap-2 sm:gap-4 w-full">
-        <p className="text-xs sm:text-base font-bold text-gray-700 text-center leading-tight break-words w-full px-0.5">
+      <div className="flex flex-col gap-2 max-[430px]:gap-1 sm:gap-4 w-full">
+        <p className="text-xs max-[430px]:text-[10px] sm:text-base font-bold text-gray-700 text-center leading-tight break-words w-full px-0.5">
           Categories found
         </p>
         {CATEGORIES.map(({ slug, title, image }) => {
@@ -42,11 +42,11 @@ export default function MessageBar() {
               <img
                 src={image}
                 alt={title}
-                className={`w-8 h-8 sm:w-12 sm:h-12 object-contain shrink-0 transition-all duration-300 ${
+                className={`w-8 h-8 max-[430px]:w-6 max-[430px]:h-6 sm:w-12 sm:h-12 object-contain shrink-0 transition-all duration-300 ${
                   isFound ? 'opacity-100' : 'opacity-40 grayscale'
                 }`}
               />
-              <span className="text-xs sm:text-[15px] font-bold text-gray-700 text-center leading-tight w-full break-words">
+              <span className="text-xs max-[430px]:text-[9px] sm:text-[15px] font-bold text-gray-700 text-center leading-tight w-full break-words">
                 {title}
               </span>
             </div>
@@ -58,15 +58,15 @@ export default function MessageBar() {
       <button
         type="button"
         onClick={handleRulesClick}
-        className="flex flex-col items-center gap-1 sm:gap-2 hover:cursor-pointer bg-transparent border-none p-0 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 rounded-lg mt-2 sm:mt-4 shrink-0"
+        className="flex flex-col items-center gap-1 max-[430px]:gap-0.5 sm:gap-2 hover:cursor-pointer bg-transparent border-none p-0 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 rounded-lg mt-2 max-[430px]:mt-1 sm:mt-4 shrink-0"
         aria-label="Pause and review game rules"
       >
         <img
           src={instructionLogo}
           alt=""
-          className="w-8 h-8 sm:w-12 sm:h-12 object-contain shrink-0"
+          className="w-8 h-8 max-[430px]:w-6 max-[430px]:h-6 sm:w-12 sm:h-12 object-contain shrink-0"
         />
-        <p className="text-[10px] sm:text-xs font-medium text-gray-700 text-center leading-tight max-w-[70px] sm:max-w-[80px]">
+        <p className="text-[10px] max-[430px]:text-[8px] sm:text-xs font-medium text-gray-700 text-center leading-tight max-w-[70px] max-[430px]:max-w-[56px] sm:max-w-[80px]">
           Pause and review rules
         </p>
       </button>
