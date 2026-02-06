@@ -383,7 +383,7 @@
     "comments": 1,
     "dangerZones": [
       {
-        "id": "post19-zone1",
+        "id": "post15-zone1",
         "category": "daily_routines",
         "type": "class_schedule",
         "originalWidth": 800,
@@ -497,7 +497,7 @@
     "comments": 2,
     "dangerZones": [
       {
-        "id": "post15-zone1",
+        "id": "post19-zone1",
         "category": "family_home",
         "type": "license_plate",
         "originalWidth": 800,
