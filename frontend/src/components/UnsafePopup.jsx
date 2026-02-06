@@ -56,7 +56,7 @@ function UnsafePopup({ post, zone, onClose }) {
             <img
               src={hackerIcon}
               alt=""
-              className="w-30 h-30 shrink-0 object-contain mt-4"
+              className="w-30 h-30 shrink-0 object-contain mt-4 max-[450px]:hidden"
               aria-hidden
             />
           </div>

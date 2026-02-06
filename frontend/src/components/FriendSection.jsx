@@ -38,12 +38,12 @@ function FriendSection() {
         },
         {
             id: 6,
-            name: "jacksmith_",
+            name: "jack_",
             image: person6,
         }
     ]
   return (
-    <div className='flex items-center justify-between gap-1 sm:gap-3'>
+    <div className='flex items-center justify-between gap-1 max-[430px]:gap-1.9'>
         {friendsInfo.map((eachFriend) => {
             return (
                 <div key={eachFriend.id} className='flex flex-col items-center justify-center gap-0.5 sm:gap-1'>
