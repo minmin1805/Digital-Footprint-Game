@@ -1,12 +1,11 @@
-import React, { useRef } from "react";
+import React from "react";
 import detectivekid from "../assets/GamePage/EndGamePopup/detectivekid.png";
 import { TiTick } from "react-icons/ti";
 import sheildlogo from "../assets/GamePage/EndGamePopup/shieldlogo.png";
 import banner from "../assets/GamePage/EndGamePopup/banner.png";
 import { IoMdDownload } from "react-icons/io";
 import redpin from "../assets/GamePage/EndGamePopup/redpin.png";
-import PdfChecklist from "./PdfChecklist";
-import { captureElementAsPdf } from "../lib/pdfChecklist";
+import checklistPdfUrl from "../assets/PDF/DigitalFootprintDetective.pdf?url";
 
 function GameEndPopup({
   onPlayAgain,
@@ -18,27 +17,19 @@ function GameEndPopup({
   playAgainError = null,
 }) {
   const foundAllFive = categoriesFound >= 5
-  const checklistRef = useRef(null)
 
-  async function downloadSafetyChecklist() {
-    try {
-      await captureElementAsPdf(checklistRef.current);
-    } catch (err) {
-      console.error("Failed to generate PDF:", err);
-    }
+  function downloadSafetyChecklist() {
+    const link = document.createElement("a");
+    link.href = checklistPdfUrl;
+    link.download = "DigitalFootprintDetective.pdf";
+    link.rel = "noopener noreferrer";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 
   return (
     <>
-      {/* Hidden checklist for PDF capture - rendered off-screen at A4 dimensions */}
-      <div
-        ref={checklistRef}
-        className="fixed left-[-9999px] top-0"
-        style={{ width: '794px' }}
-        aria-hidden
-      >
-        <PdfChecklist />
-      </div>
     <div className="fixed flex items-center justify-center p-2 sm:p-4 pt-20 sm:pt-24 inset-0 z-50 overflow-y-auto overflow-x-visible">
       <div
         className="absolute inset-0 bg-black/30 backdrop-blur-sm"
