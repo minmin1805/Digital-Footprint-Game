@@ -2,6 +2,7 @@ import React from 'react'
 import detectivekid from '../assets/GamePage/EndGamePopup/detectivekid.png'
 import welcomebanner from '../assets/WelcomePage/welcomebanner.png'
 import useWelcomePage from '../../hooks/useWelcomePage.js'
+import { DesignerCreditLine } from './EndgamePage.jsx'
 import glass from '../assets/WelcomePage/glass.png'
 import magnifyingglass from '../assets/WelcomePage/glass.png'
 
@@ -9,8 +10,8 @@ function WelcomePage() {
   const { username, setUsername, handleStart, playerError } = useWelcomePage()
 
   return (
-    <div className="min-h-screen w-full bg-blue-200">
-      <div className="flex flex-col items-center px-4 pt-6 pb-12 w-full">
+    <div className="min-h-screen w-full bg-blue-200 flex flex-col">
+      <div className="flex flex-col items-center px-4 pt-6 pb-8 w-full flex-1">
         {/* Golden banner */}
         <img
           src={welcomebanner}
@@ -70,6 +71,7 @@ function WelcomePage() {
         </div>
         </div>
       </div>
+      <DesignerCreditLine className="text-center text-xs sm:text-sm text-blue-900/65 pb-6 px-4" />
     </div>
   )
 }

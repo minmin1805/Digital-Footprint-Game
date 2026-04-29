@@ -6,6 +6,7 @@ import banner from "../assets/GamePage/EndGamePopup/banner.png";
 import { IoMdDownload } from "react-icons/io";
 import redpin from "../assets/GamePage/EndGamePopup/redpin.png";
 import checklistPdfUrl from "../assets/PDF/DigitalFootprintDetective.pdf?url";
+import { DesignerCreditLine } from "../pages/EndgamePage.jsx";
 
 function GameEndPopup({
   onPlayAgain,
@@ -172,6 +173,7 @@ function GameEndPopup({
               >
                 {playAgainLoading ? 'Saving...' : 'Exit to Main Menu'}
               </button>
+              <DesignerCreditLine className="text-center text-xs text-gray-600 pb-2" />
             </div>
           </div>
         </div>
