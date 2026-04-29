@@ -1,0 +1,50 @@
+{
+  "generatedAtUtc": "2026-04-29T21:32:37.031Z",
+  "inputs": {
+    "gameId": "digital-footprint-detective",
+    "fromExclusive": false,
+    "from": "2026-04-01T00:00:00.000Z",
+    "toExclusive": true,
+    "to": "2026-05-01T00:00:00.000Z",
+    "environmentScope": "all",
+    "eventCountObserved": 78,
+    "distinctSessionsAnyEvent": 2
+  },
+  "kpis": {
+    "starts_welcome_submitted": 2,
+    "funnel_instructions_viewed": 2,
+    "funnel_game_session_start": 2,
+    "completes_session_completed": 2,
+    "completion_rate_session_over_game_start": 1,
+    "avg_session_duration_sec_completed_only_mean": 105.5,
+    "avg_max_post_turn_index_plus_one_among_completed_mean": 19,
+    "category_discovery_completion_share": 1,
+    "avg_safe_detect_ratio_completed_sessions_mean": 0.708333,
+    "unsafe_zone_hit_learning_signal_avg": 1,
+    "brute_force_safe_feedback_share_of_safe_opens": 0,
+    "rules_modal_opens_distinct_sessions": 0
+  },
+  "funnel_dropoff": [
+    {
+      "step": "welcome_submitted",
+      "distinct_sessions": 2
+    },
+    {
+      "step": "instructions_viewed",
+      "intersection_with_welcome_sessions": 2,
+      "retention_vs_welcome": 1
+    },
+    {
+      "step": "game_session_start",
+      "intersection_with_instructions_sessions": 2,
+      "retention_vs_instructions_sessions": 1
+    },
+    {
+      "step": "session_completed",
+      "intersection_with_game_session_start_sessions": 2,
+      "retention_vs_game_sessions": 1
+    }
+  ],
+  "methodologyNotes": "category_discovery_completion_share numerator counts session_completed docs with categoriesDistinct≥5 among all session_completed in window; completion_rate denominates distinct game_session_start events.",
+  "privacy": "No free-text payloads are stored by design; reviewer should rotate events periodically per policy."
+}

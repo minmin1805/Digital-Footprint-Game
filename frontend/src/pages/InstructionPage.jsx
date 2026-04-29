@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { useGame } from "../context/GameContext";
+import { emitTelemetryEvent } from "../services/telemetryService.js";
 import { TiTick } from "react-icons/ti";
 import shieldlogo from "../assets/GamePage/EndGamePopup/shieldlogo.png";
 import schoolImage from "../assets/InstructionPage/school.png";
@@ -65,6 +67,18 @@ const RISK_CARDS = [
 
 export default function InstructionPage() {
   const navigate = useNavigate();
+  const { sessionId, playerId } = useGame();
+  const instructedRef = useRef(false);
+
+  useEffect(() => {
+    if (!sessionId || instructedRef.current) return;
+    instructedRef.current = true;
+    emitTelemetryEvent({
+      eventType: "instructions_viewed",
+      sessionId,
+      playerId: playerId ?? undefined,
+    });
+  }, [sessionId, playerId]);
 
   return (
     <div className="min-h-screen w-full  py-8 pt-30">

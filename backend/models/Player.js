@@ -38,7 +38,16 @@ const playerSchema = new mongoose.Schema({
     completedAt: {
         type: Date,
         default: null
-    }
+    },
+    /** Optional snapshot updated from telemetry session_completed (not source of analytics). */
+    dfdLastSessionCompletedAt: {
+        type: Date,
+        default: null,
+    },
+    dfdLastCategoriesDistinct: {
+        type: Number,
+        default: null,
+    },
 }, { timestamps: true })
 
 

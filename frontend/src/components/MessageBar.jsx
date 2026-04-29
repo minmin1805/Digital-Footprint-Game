@@ -1,5 +1,6 @@
 import React from 'react'
 import { useGame } from '../context/GameContext'
+import { emitTelemetryEvent } from '../services/telemetryService.js'
 import instructionLogo from '../assets/GamePage/InstructionLogo/instructionlogo.png'
 import mapImage from '../assets/InstructionPage/map.png'
 import schoolImage from '../assets/InstructionPage/school.png'
@@ -16,10 +17,15 @@ const CATEGORIES = [
 ]
 
 export default function MessageBar() {
-  const { foundItems, setCurrentPopup, setIsPaused } = useGame()
+  const { foundItems, setCurrentPopup, setIsPaused, sessionId, playerId } = useGame()
   const categoriesFound = new Set(foundItems.map((f) => f.category))
 
   const handleRulesClick = () => {
+    emitTelemetryEvent({
+      eventType: 'rules_modal_open',
+      sessionId,
+      playerId: playerId ?? undefined,
+    })
     setIsPaused(true)
     setCurrentPopup({ type: 'instruction', data: {} })
   }

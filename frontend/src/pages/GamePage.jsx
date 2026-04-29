@@ -12,18 +12,22 @@ import SafePopup from '../components/SafePopup'
 import GameEndPopup from '../components/GameEndPopup'
 import InstructionPopup from '../components/InstructionPopup'
 import CountdownOverlay from '../components/CountdownOverlay'
+import { emitTelemetryEvent } from '../services/telemetryService.js'
 
 function GamePage() {
   const navigate = useNavigate()
   const [playAgainLoading, setPlayAgainLoading] = useState(false)
   const [playAgainError, setPlayAgainError] = useState(null)
+  const completionTelemetrySentRef = useRef(false)
   const {
     playerId,
+    sessionId,
     score,
     foundItems,
     likedSafePostIds,
     posts,
     gameStartTime,
+    currentPostIndex,
     countdownActive,
     setCountdownActive,
     setCountdownValue,
@@ -131,6 +135,7 @@ function GamePage() {
     setSafePostClickCounts({})
     setCurrentPostIndex(0)
     setScrollPhase('scrolling')
+    completionTelemetrySentRef.current = false
     return () => {
       if (scrollDelayTimerRef.current) clearTimeout(scrollDelayTimerRef.current)
     }
@@ -156,6 +161,11 @@ function GamePage() {
   const handleCountdownComplete = useCallback(() => {
     setCountdownActive(false)
     setGameStartTime(Date.now())
+    emitTelemetryEvent({
+      eventType: 'game_session_start',
+      sessionId,
+      playerId: playerId ?? undefined,
+    })
     if (skipScrollDelayRef.current) {
       skipScrollDelayRef.current = false
       setScrollDelayActive(false)
@@ -170,7 +180,88 @@ function GamePage() {
       setScrollDelayActive(false)
       scrollDelayTimerRef.current = null
     }, 1500)
-  }, [setCountdownActive, setGameStartTime, setScrollDelayActive, setScrollPhase, startPostTimer])
+  }, [
+    setCountdownActive,
+    setGameStartTime,
+    setScrollDelayActive,
+    setScrollPhase,
+    startPostTimer,
+    sessionId,
+    playerId,
+  ])
+
+  useEffect(() => {
+    if (!sessionId || countdownActive || !gameStartTime) return
+    const post = posts[currentPostIndex]
+    if (!post?.id) return
+    emitTelemetryEvent({
+      eventType: 'post_turn_start',
+      sessionId,
+      playerId: playerId ?? undefined,
+      stepNumber: currentPostIndex,
+      stepId: post.id,
+      metadata: {
+        postIndex: currentPostIndex,
+        postId: post.id,
+        postType: post.type,
+      },
+    })
+  }, [sessionId, playerId, countdownActive, gameStartTime, currentPostIndex, posts])
+
+  useEffect(() => {
+    if (
+      currentPopup?.type !== 'safe' ||
+      !sessionId ||
+      !currentPopup.data?.post
+    )
+      return
+    const p = currentPopup.data.post
+    emitTelemetryEvent({
+      eventType: 'safe_feedback_opened',
+      sessionId,
+      playerId: playerId ?? undefined,
+      stepNumber: currentPostIndex,
+      stepId: p.id,
+      metadata: {
+        postId: p.id,
+        fromBruteForce: !!currentPopup.data.fromBruteForce,
+      },
+    })
+  }, [currentPopup, sessionId, playerId, currentPostIndex])
+
+  useEffect(() => {
+    if (currentPopup?.type !== 'completion' || !sessionId || completionTelemetrySentRef.current)
+      return
+    completionTelemetrySentRef.current = true
+    const cats = new Set(foundItems.map((f) => f.category)).size
+    const playingSec =
+      gameStartTime != null
+        ? Math.round((Date.now() - gameStartTime) / 1000)
+        : undefined
+    emitTelemetryEvent({
+      eventType: 'session_completed',
+      sessionId,
+      playerId: playerId ?? undefined,
+      metadata: {
+        score,
+        categoriesDistinct: cats,
+        safepostDetected: likedSafePostIds?.size ?? 0,
+        safepostTotal: posts.filter((p) => p.type === 'safe').length,
+        durationPlayingSec: playingSec ?? 0,
+        totalPostsInGame: posts.length,
+        wonAllCategories: cats >= 5,
+      },
+    })
+  }, [
+    currentPopup,
+    sessionId,
+    playerId,
+    foundItems,
+    gameStartTime,
+    likedSafePostIds,
+    posts,
+    score,
+  ])
 
   const categoriesFound = new Set(foundItems.map((f) => f.category)).size
   const safepostTotal = posts.filter((p) => p.type === 'safe').length
@@ -222,13 +313,38 @@ function GamePage() {
         <UnsafePopup
           post={currentPopup.data.post}
           zone={currentPopup.data.zone}
-          onClose={handleUnsafePopupContinue}
+          onClose={() => {
+            const post = currentPopup.data?.post
+            emitTelemetryEvent({
+              eventType: 'unsafe_feedback_continue',
+              sessionId,
+              playerId: playerId ?? undefined,
+              stepNumber: currentPostIndex,
+              stepId: post?.id,
+              metadata: post?.id ? { postId: post.id } : {},
+            })
+            handleUnsafePopupContinue()
+          }}
         />
       )}
       {currentPopup?.type === 'safe' && currentPopup.data?.post && (
         <SafePopup
           post={currentPopup.data.post}
-          onClose={handleSafePopupContinue}
+          onClose={() => {
+            const post = currentPopup.data?.post
+            emitTelemetryEvent({
+              eventType: 'safe_feedback_continue',
+              sessionId,
+              playerId: playerId ?? undefined,
+              stepNumber: currentPostIndex,
+              stepId: post?.id,
+              metadata: {
+                postId: post?.id,
+                fromBruteForce: !!currentPopup.data?.fromBruteForce,
+              },
+            })
+            handleSafePopupContinue()
+          }}
         />
       )}
       {currentPopup?.type === 'instruction' && (

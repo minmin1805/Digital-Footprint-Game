@@ -20,7 +20,7 @@ function Post({ post, onCorrectClick }) {
     (ev) => {
       if (!onCorrectClick) return
       if (isCaptionDanger) {
-        handleIncorrectZoneClick?.(ev)
+        handleIncorrectZoneClick?.(post, ev)
         return
       }
 
@@ -45,7 +45,7 @@ function Post({ post, onCorrectClick }) {
           }
         }
         if (post.type === 'danger') {
-          handleIncorrectZoneClick?.(ev)
+          handleIncorrectZoneClick?.(post, ev)
           return
         }
       }
@@ -62,7 +62,7 @@ function Post({ post, onCorrectClick }) {
     (ev) => {
       if (!isCaptionDanger || post.type !== 'danger') return
       if (ev.target.closest('[data-caption-danger]')) return
-      handleIncorrectZoneClick?.(ev)
+      handleIncorrectZoneClick?.(post, ev)
     },
     [isCaptionDanger, post.type, handleIncorrectZoneClick]
   )

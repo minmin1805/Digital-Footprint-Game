@@ -4,6 +4,7 @@ import { playBuzzerSound } from '../lib/sounds.js'
 import { useSounds } from './SoundContext'
 import postsData from '../data/posts.json'
 import postImageMap from '../data/postImages.js'
+import { emitTelemetryEvent } from '../services/telemetryService.js'
 
 const GameContext = createContext(null)
 
@@ -67,6 +68,11 @@ export function GameProvider({ children }) {
       setPlayerId(data.id)
       setSessionId(data.sessionId)
       setPlayerName(data.playerName ?? name.trim())
+      emitTelemetryEvent({
+        eventType: 'welcome_submitted',
+        sessionId: data.sessionId,
+        playerId: String(data.id),
+      })
       navigate('/instructions')
     } catch (err) {
       console.error('createPlayerAndGo error:', err)
@@ -110,6 +116,14 @@ export function GameProvider({ children }) {
     if (post.type === 'danger') {
       const foundThisPost = foundItemsRef.current.some((f) => f.postId === post.id)
       if (!foundThisPost && post.dangerZones?.length > 0) {
+        emitTelemetryEvent({
+          eventType: 'timer_expired',
+          sessionId,
+          playerId: playerId ?? undefined,
+          stepNumber: idx,
+          stepId: post.id,
+          metadata: { postId: post.id, postType: post.type },
+        })
         setIsPaused(true)
         setCurrentPopup({ type: 'unsafe', data: { post, zone: post.dangerZones[0] } })
         return
@@ -117,11 +131,19 @@ export function GameProvider({ children }) {
     }
     if (post.type === 'safe') {
       setIsPaused(true)
-      setCurrentPopup({ type: 'safe', data: { post } })
+      emitTelemetryEvent({
+        eventType: 'timer_expired',
+        sessionId,
+        playerId: playerId ?? undefined,
+        stepNumber: idx,
+        stepId: post.id,
+        metadata: { postId: post.id, postType: post.type },
+      })
+      setCurrentPopup({ type: 'safe', data: { post, fromBruteForce: false } })
       return
     }
     advanceToNextPost()
-  }, [posts, stopPostTimer, advanceToNextPost])
+  }, [posts, stopPostTimer, advanceToNextPost, sessionId, playerId])
 
   const startPostTimer = useCallback(() => {
     stopPostTimer()
@@ -145,6 +167,15 @@ export function GameProvider({ children }) {
 
   const handleCorrectClick = (post, zone) => {
     if (foundItems.some((f) => f.zoneId === zone.id)) return // already found
+    const idx = currentPostIndexRef.current
+    emitTelemetryEvent({
+      eventType: 'unsafe_zone_correct',
+      sessionId,
+      playerId: playerId ?? undefined,
+      stepNumber: idx,
+      stepId: typeof post?.id === 'string' ? post.id : undefined,
+      metadata: { postId: post.id, category: zone.category },
+    })
     const newItem = { postId: post.id, zoneId: zone.id, category: zone.category }
     const updatedFound = [...foundItems, newItem]
     const categories = new Set(updatedFound.map((f) => f.category))
@@ -166,40 +197,84 @@ export function GameProvider({ children }) {
     }, 2000)
   }, [])
 
-  const handleIncorrectZoneClick = useCallback((ev) => {
-    showTooltip(ev, "That area doesn't contain a privacy risk")
-  }, [showTooltip])
+  const handleIncorrectZoneClick = useCallback(
+    (post, ev) => {
+      const idx = currentPostIndexRef.current
+      emitTelemetryEvent({
+        eventType: 'incorrect_zone_click',
+        sessionId,
+        playerId: playerId ?? undefined,
+        stepNumber: idx,
+        stepId: post?.id,
+        metadata: post?.id ? { postId: post.id } : {},
+      })
+      showTooltip(ev, "That area doesn't contain a privacy risk")
+    },
+    [showTooltip, sessionId, playerId]
+  )
 
-  const handleSafePostImageClick = useCallback((post, ev) => {
-    if (post.type !== 'safe') return
-    showTooltip(ev, "This area does not contain a privacy risk")
-    setSafePostClickCounts((prev) => {
-      const count = (prev[post.id] ?? 0) + 1
-      if (count >= 3) {
+  const handleSafePostImageClick = useCallback(
+    (post, ev) => {
+      if (post.type !== 'safe') return
+      showTooltip(ev, "This area does not contain a privacy risk")
+      setSafePostClickCounts((prev) => {
+        const count = (prev[post.id] ?? 0) + 1
+        const i = currentPostIndexRef.current
+        emitTelemetryEvent({
+          eventType: 'safe_image_click',
+          sessionId,
+          playerId: playerId ?? undefined,
+          stepNumber: i,
+          stepId: post.id,
+          metadata: { postId: post.id, clickCount: count },
+        })
+        if (count >= 3) {
+          setIsPaused(true)
+          stopPostTimer()
+          setCurrentPopup({ type: 'safe', data: { post, fromBruteForce: true } })
+        }
+        return { ...prev, [post.id]: count }
+      })
+    },
+    [showTooltip, stopPostTimer, sessionId, playerId]
+  )
+
+  const handleHeartClick = useCallback(
+    (post, ev) => {
+      ev.stopPropagation()
+      const idx = currentPostIndexRef.current
+      if (post.type === 'safe') {
+        emitTelemetryEvent({
+          eventType: 'safe_like_correct',
+          sessionId,
+          playerId: playerId ?? undefined,
+          stepNumber: idx,
+          stepId: post.id,
+          metadata: { postId: post.id },
+        })
+        playLikeSound()
+        setLikedSafePostIds((prev) => new Set([...prev, post.id]))
         setIsPaused(true)
         stopPostTimer()
-        setCurrentPopup({ type: 'safe', data: { post } })
+        setTimeout(() => {
+          setCurrentPopup({ type: 'safe', data: { post, fromBruteForce: false } })
+        }, 1000)
+      } else {
+        emitTelemetryEvent({
+          eventType: 'wrong_heart_on_unsafe',
+          sessionId,
+          playerId: playerId ?? undefined,
+          stepNumber: idx,
+          stepId: post.id,
+          metadata: { postId: post.id },
+        })
+        setShakingHeartPostId(post.id)
+        playBuzzerSound()
+        setTimeout(() => setShakingHeartPostId(null), 500)
       }
-      return { ...prev, [post.id]: count }
-    })
-  }, [showTooltip, stopPostTimer])
-
-  const handleHeartClick = useCallback((post, ev) => {
-    ev.stopPropagation()
-    if (post.type === 'safe') {
-      playLikeSound()
-      setLikedSafePostIds((prev) => new Set([...prev, post.id]))
-      setIsPaused(true)
-      stopPostTimer()
-      setTimeout(() => {
-        setCurrentPopup({ type: 'safe', data: { post } })
-      }, 1000)
-    } else {
-      setShakingHeartPostId(post.id)
-      playBuzzerSound()
-      setTimeout(() => setShakingHeartPostId(null), 500)
-    }
-  }, [stopPostTimer, playLikeSound])
+    },
+    [stopPostTimer, playLikeSound, sessionId, playerId]
+  )
 
   const handleUnsafePopupContinue = () => {
     const categories = new Set(foundItems.map((f) => f.category))
